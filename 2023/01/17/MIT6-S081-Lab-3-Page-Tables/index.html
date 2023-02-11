@@ -27,7 +27,7 @@
 <meta property="og:description" content="开始麻烦起来了啊......">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-01-17T04:21:04.000Z">
-<meta property="article:modified_time" content="2023-02-08T12:15:23.019Z">
+<meta property="article:modified_time" content="2023-02-11T04:19:52.352Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text-1-vmprint"><span class="nav-number">1.</span> <span class="nav-text">1. vmprint\text{1. vmprint}1. vmprint</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text-2-per-process-kernel-page-table"><span class="nav-number">2.</span> <span class="nav-text">2. Per-process kernel page table\text{2. Per-process kernel page table}2. Per-process kernel page table</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E8%BF%99%E4%B8%AA"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 为什么要做这个\text{2.1. 为什么要做这个}2.1. 为什么要做这个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-2-coding"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. Coding\text{2.2. Coding}2.2. Coding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-3-%E9%A2%98%E5%A4%96%E8%AF%9D-%E5%86%85%E6%A0%B8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%88%E7%A9%BA%E9%97%B4%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 题外话: 内核自己的栈空间从哪儿来\text{2.3. 题外话: 内核自己的栈空间从哪儿来}2.3. 题外话: 内核自己的栈空间从哪儿来</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text-1-vmprint"><span class="nav-number">1.</span> <span class="nav-text">1. vmprint\text{1. vmprint}1. vmprint</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text-2-per-process-kernel-page-table"><span class="nav-number">2.</span> <span class="nav-text">2. Per-process kernel page table\text{2. Per-process kernel page table}2. Per-process kernel page table</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E8%BF%99%E4%B8%AA"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 为什么要做这个\text{2.1. 为什么要做这个}2.1. 为什么要做这个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-2-coding"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. Coding\text{2.2. Coding}2.2. Coding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-2-3-%E9%A2%98%E5%A4%96%E8%AF%9D-%E5%86%85%E6%A0%B8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%88%E7%A9%BA%E9%97%B4%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 题外话: 内核自己的栈空间从哪儿来\text{2.3. 题外话: 内核自己的栈空间从哪儿来}2.3. 题外话: 内核自己的栈空间从哪儿来</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text-3-simplify-copyin"><span class="nav-number">3.</span> <span class="nav-text">3. Simplify copyin\text{3. Simplify copyin}3. Simplify copyin</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-08 20:15:23" itemprop="dateModified" datetime="2023-02-08T20:15:23+08:00">2023-02-08</time>
+      <time title="Modified: 2023-02-11 12:19:52" itemprop="dateModified" datetime="2023-02-11T12:19:52+08:00">2023-02-11</time>
     </span>
 
   
@@ -266,6 +266,18 @@
 <p>前面说了，内核页表给每个进程都维护了内核栈的映射，换句话说所有用户程序都有内核抽象出来的栈空间。但是内核自己运行也是需要栈的，这个栈在虚拟内存启用之前就应当存在，但是从道理上讲，操作系统是开机后第一个启动的程序，也是直接接触硬件的程序，没有其他任何程序或者机制能给操作系统内核也抽象一个栈空间出来。</p>
 <p>实际上，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>内核通过一个很神奇的方式创建了自己的栈空间。在<code>start.c</code>中可以看到操作系统申请了一个数组<code>stack0</code>，在编译出来的<code>entry.S</code>中可以看到操作系统干的第一件事儿是把<code>stack0</code>的末尾地址加载到了<code>sp</code>(栈指针寄存器)中。</p>
 <p>这就很好理解了，有了栈指针寄存器和一片连续的物理内存，这就搞出了一个栈。</p>
+<h1 id="text-3-simplify-copyin"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. Simplify copyin</mtext></mrow><annotation encoding="application/x-tex">\text{3. Simplify copyin}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">3. Simplify copyin</span></span></span></span></span></h1>
+<p>任务已经限制了用户虚拟内存地址不超过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PLIC</mtext></mrow><annotation encoding="application/x-tex">\text{PLIC}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">PLIC</span></span></span></span></span>，这一定程度上简化了我们的工作，我们只需要考虑把用户部分的映射复制在内核页表<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PLIC</mtext></mrow><annotation encoding="application/x-tex">\text{PLIC}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">PLIC</span></span></span></span></span>以下的地址即可。</p>
+<p>虽然如此，还是很难。。。在这里说按照我的做法的几个坑点吧</p>
+<ol>
+<li>
+<p>除了内核栈，任何时候都不要释放其他物理页，任何时候任何复制都只复制页表不复制物理页。除了释放进程，任何时候都不要释放页表的任何部分。</p>
+</li>
+<li>
+<p>在复制页表的时候，尤其注意分配的单位是页，而虚拟地址可能没有按照页对齐。可以参照<code>uvmalloc</code>的方法来分配，这个地方如果错了，在测试<code>sbrk</code>的时候如果内存扩张少于一页就会出错。</p>
+</li>
+</ol>
+<p>改动的地方比较多，这里不全部列出来了，可以看<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>github</mtext></mrow><annotation encoding="application/x-tex">\text{github}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">github</span></span></span></span></span></p>
 
     </div>
 
