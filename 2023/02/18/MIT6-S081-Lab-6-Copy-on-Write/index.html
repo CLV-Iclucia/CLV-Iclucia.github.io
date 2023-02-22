@@ -19,23 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="&quot;The World&quot; of CLV">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="本次实验只有一个难度为hard\text{hard}hard的任务，实现fork的写时复制。这一次以及上一次实验我们都是在利用页表机制和trap的结合，也就是Page Fault\text{Page Fault}Page Fault，来完成赶ddl物理内存的按需分配。 虽然任务只有一个，但是做得极为艰难。。。最后也是看了教授讲解发现自己有个地方出bug了才改对。按照我自己的做法是没怎么考虑多个CP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.S081 Lab-6: Traps">
+<meta property="og:url" content="http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
+<meta property="og:description" content="本次实验只有一个难度为hard\text{hard}hard的任务，实现fork的写时复制。这一次以及上一次实验我们都是在利用页表机制和trap的结合，也就是Page Fault\text{Page Fault}Page Fault，来完成赶ddl物理内存的按需分配。 虽然任务只有一个，但是做得极为艰难。。。最后也是看了教授讲解发现自己有个地方出bug了才改对。按照我自己的做法是没怎么考虑多个CP">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-18T08:19:59.000Z">
+<meta property="article:modified_time" content="2023-02-21T22:57:00.302Z">
 <meta property="article:author" content="CLV">
+<meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","path":"2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","title":"MIT6.S081 Lab-6: Traps"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>"The World" of CLV</title>
+<title>MIT6.S081 Lab-6: Traps | "The World" of CLV</title>
   
 
 
@@ -66,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">"The World" of CLV</h1>
+      <p class="site-title">"The World" of CLV</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -159,93 +164,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/22/MIT6-S081-Lab-7-Multithreading/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/22/MIT6-S081-Lab-7-Multithreading/" class="post-title-link" itemprop="url">MIT6.S081 Lab-7: Multithreading</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2023-02-22 06:59:39 / Modified: 23:18:10" itemprop="dateCreated datePublished" datetime="2023-02-22T06:59:39+08:00">2023-02-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>又是没有hard的一天...而且是个令人兴奋的话题</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/22/MIT6-S081-Lab-7-Multithreading/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -259,13 +188,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
+      <meta itemprop="name" content="MIT6.S081 Lab-6: Traps | "The World" of CLV">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/" class="post-title-link" itemprop="url">MIT6.S081 Lab-6: Traps</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          MIT6.S081 Lab-6: Traps
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -295,7 +224,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>本次实验只有一个难度为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>hard</mtext></mrow><annotation encoding="application/x-tex">\text{hard}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">hard</span></span></span></span></span>的任务，实现<code>fork</code>的写时复制。这一次以及上一次实验我们都是在利用页表机制和<code>trap</code>的结合，也就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>，来完成<s>赶ddl</s>物理内存的按需分配。</p>
+        <p>本次实验只有一个难度为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>hard</mtext></mrow><annotation encoding="application/x-tex">\text{hard}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">hard</span></span></span></span></span>的任务，实现<code>fork</code>的写时复制。这一次以及上一次实验我们都是在利用页表机制和<code>trap</code>的结合，也就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>，来完成<s>赶ddl</s>物理内存的按需分配。</p>
 <p>虽然任务只有一个，但是做得极为艰难。。。最后也是看了教授讲解发现自己有个地方出bug了才改对。按照我自己的做法是没怎么考虑多个CPU的，所以有的测试会时而通过时而不通过，这已经是目前的极限了。。。更完善的话还是得继续往后学。</p>
 <p>之前在做<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Table</mtext></mrow><annotation encoding="application/x-tex">\text{Page Table}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Table</span></span></span></span></span>的时候就觉得<code>fork</code>首先复制父进程页表，然后在<code>exec</code>里面会清空旧页改换成新页表。但是有可能父进程占用内存非常大，我们把父进程内存先复制给子进程，在子进程里可能没怎么使用就全清了，实在非常浪费时间和空间，肯定可以优化。这次<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab</span></span></span></span></span>就来解决这个问题。写时复制就很有点像可持久化数据结构，我们只会给被修改的部分复制一份副本，然后对新的副本进行修改，没有改变的部分就共用，其实前面的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Table</mtext></mrow><annotation encoding="application/x-tex">\text{Page Table}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Table</span></span></span></span></span>中我们也是用类似的方法实现了每个进程的内核页表。</p>
 <p>按照指南，首先从修改<code>uvmcopy</code>开始，这个比较容易，我们只要知道，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Copy-on-Write</mtext></mrow><annotation encoding="application/x-tex">\text{Copy-on-Write}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Copy-on-Write</span></span></span></span></span>机制会将<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>PTE</mtext></mrow><annotation encoding="application/x-tex">\text{PTE}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">PTE</span></span></span></span></span>的写入位设为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>，以在下一次对该页进行写入时触发<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span></p>
@@ -316,7 +245,6 @@
 <p>最后的问题是<code>ref</code>的维护，其实做法有很多，教授的做法是把<code>ref</code>的修改都放在<code>kalloc</code>和<code>kfree</code>里，这样做确实是OK的，而且对于多个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>也同样适用。但是实际上我们只需要对用户页维护<code>ref</code>，也就是说很多<code>kalloc</code>分配的页其实不需要我们维护<code>ref</code>，所以我没有把<code>ref</code>的修改放在这两个函数里，而是根据需要自己操作，如果修改的页面是用户页，那么就修改<code>ref</code>，否则不动。但是这样单<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>没问题，多<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>就有可能出问题（当然也有可能不出问题）。这样做确实省了一点点不必要的计算，但是拓展起来很麻烦，而且要非常小心地选择修改<code>ref</code>的时机（尤其是在有错误处理的时候）。具体改动可以见我的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>github</mtext></mrow><annotation encoding="application/x-tex">\text{github}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">github</span></span></span></span></span>。</p>
 <p>据说当年<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Linus</mtext></mrow><annotation encoding="application/x-tex">\text{Linus}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Linus</span></span></span></span></span>在写<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Linux</mtext></mrow><annotation encoding="application/x-tex">\text{Linux}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Linux</span></span></span></span></span>的时候最难的部分也是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Copy-on-Write</mtext></mrow><annotation encoding="application/x-tex">\text{Copy-on-Write}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Copy-on-Write</span></span></span></span></span>，只能说这个思路并不难，但是细节很多，对得起教授专门为它开一节习题课（</p>
 
-      
     </div>
 
     
@@ -324,253 +252,24 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+          </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/" class="post-title-link" itemprop="url">MIT6.S081 Lab-5: Lazy Allocation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2023-02-14 09:50:28 / Modified: 22:11:04" itemprop="dateCreated datePublished" datetime="2023-02-14T09:50:28+08:00">2023-02-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>居然没有hard难度的任务，我哭死</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/11/MIT6-S081-Lab-4-Traps/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/11/MIT6-S081-Lab-4-Traps/" class="post-title-link" itemprop="url">MIT6.S081 Lab-4: Traps</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-11 22:04:51" itemprop="dateCreated datePublished" datetime="2023-02-11T22:04:51+08:00">2023-02-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-14 00:07:54" itemprop="dateModified" datetime="2023-02-14T00:07:54+08:00">2023-02-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>比上次还是轻松了不少呢......</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/11/MIT6-S081-Lab-4-Traps/">
-                Read more &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/" rel="prev" title="MIT6.S081 Lab-5: Lazy Allocation">
+                  <i class="fa fa-chevron-left"></i> MIT6.S081 Lab-5: Lazy Allocation
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/" class="post-title-link" itemprop="url">CSC417-Physics Based Animation-Lab-0/1: Mass-Spring Systems</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-31 11:00:02" itemprop="dateCreated datePublished" datetime="2023-01-31T11:00:02+08:00">2023-01-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-08 20:16:20" itemprop="dateModified" datetime="2023-02-08T20:16:20+08:00">2023-02-08</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="为什么要开这个坑">为什么要开这个坑:</h1>
-<p>其实我原本可以选择<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>的。。。但是一方面<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>用的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Unity</mtext></mrow><annotation encoding="application/x-tex">\text{Unity}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Unity</span></span></span></span></span>引擎做作业，我不太适应。另一方面，比较下来感觉<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CSC417</mtext></mrow><annotation encoding="application/x-tex">\text{CSC417}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CSC417</span></span></span></span></span>对物理原理和数学推导的阐述比<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>更清楚（至少对我来说如此）。因此用这门课的作业来学习物理模拟。</p>
-<p>本篇<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>blog</mtext></mrow><annotation encoding="application/x-tex">\text{blog}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">blog</span></span></span></span></span>记录<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab-0</mtext></mrow><annotation encoding="application/x-tex">\text{Lab-0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab-0</span></span></span></span></span>以及<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab-1</mtext></mrow><annotation encoding="application/x-tex">\text{Lab-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab-1</span></span></span></span></span>，都是在解弹簧质点系统。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES101</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES101}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES101</span></span></span></span></span>中写过简单的弹簧质点系统模拟绳子。而这两次作业模拟弹簧质点的复杂程度会比那个大很多。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/#more" rel="contents">
-                Read more &raquo;
-              </a>
+            <div class="post-nav-item">
+                <a href="/2023/02/22/MIT6-S081-Lab-7-Multithreading/" rel="next" title="MIT6.S081 Lab-7: Multithreading">
+                  MIT6.S081 Lab-7: Multithreading <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          </div>
     </footer>
   </article>
 </div>
@@ -578,422 +277,7 @@
 
 
 
-    
 
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/19/Rescue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/19/Rescue/" class="post-title-link" itemprop="url">离奇的修电脑经历</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2023-01-19 13:53:06 / Modified: 14:14:32" itemprop="dateCreated datePublished" datetime="2023-01-19T13:53:06+08:00">2023-01-19</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。</p>
-<p>因为自己对Linux从来只是用，很少折腾，这一次修<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>BUG</mtext></mrow><annotation encoding="application/x-tex">\text{BUG}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BUG</span></span></span></span></span>花了很久。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/19/Rescue/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/17/MIT6-S081-Lab-3-Page-Tables/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/17/MIT6-S081-Lab-3-Page-Tables/" class="post-title-link" itemprop="url">MIT6.S081 Lab-3: Page Tables</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-17 12:21:04" itemprop="dateCreated datePublished" datetime="2023-01-17T12:21:04+08:00">2023-01-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-11 12:19:52" itemprop="dateModified" datetime="2023-02-11T12:19:52+08:00">2023-02-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>开始麻烦起来了啊......</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/17/MIT6-S081-Lab-3-Page-Tables/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/15/DDG-Lab-0-SCO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/15/DDG-Lab-0-SCO/" class="post-title-link" itemprop="url">Discrete Differential Geometry Lab-0: Combinatorial Surfaces</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-15 22:52:14" itemprop="dateCreated datePublished" datetime="2023-01-15T22:52:14+08:00">2023-01-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-01-16 22:42:53" itemprop="dateModified" datetime="2023-01-16T22:42:53+08:00">2023-01-16</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="为什么要开这个坑">为什么要开这个坑</h1>
-<p>学习<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Graphics</mtext></mrow><annotation encoding="application/x-tex">\text{Graphics}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Graphics</span></span></span></span></span>，最少最少要学习<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>门课，渲染，模拟和几何各一门。几何方面的学习必不可少。此外，离散微分几何在物理模拟中也有重要应用（渲染我还不知道有没有），学这么一门课自然好处大大滴有。</p>
-<p>这个系列用来记录课程的编程作业。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/15/DDG-Lab-0-SCO/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/13/MIT6-S081-Lab-2:%20Syscalls/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/13/MIT6-S081-Lab-2:%20Syscalls/" class="post-title-link" itemprop="url">MIT-6.S081 Lab-2:System Calls</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-13 09:52:16" itemprop="dateCreated datePublished" datetime="2023-01-13T09:52:16+08:00">2023-01-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-14 09:50:56" itemprop="dateModified" datetime="2023-02-14T09:50:56+08:00">2023-02-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>上一次的lab初步熟悉了如何魔改<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>以及<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>的一些系统调用，从这次lab开始，就是纯度极高的OS的内容了。</p>
-<p>本次lab的主题是系统调用，不过并不需要真的完全把系统调用的过程全部搞清楚了再来做（后面会讲清楚的）。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/13/MIT6-S081-Lab-2:%20Syscalls/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/05/MIT6-S081%20Lab-1:%20Utilities/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/05/MIT6-S081%20Lab-1:%20Utilities/" class="post-title-link" itemprop="url">MIT-6.S081 Lab-1:Utilities</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-05 12:17:36" itemprop="dateCreated datePublished" datetime="2023-01-05T12:17:36+08:00">2023-01-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-01-08 20:19:07" itemprop="dateModified" datetime="2023-01-08T20:19:07+08:00">2023-01-08</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>MIT-6.S081实验的新手教学关</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/05/MIT6-S081%20Lab-1:%20Utilities/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
 
 </div>
   </main>
