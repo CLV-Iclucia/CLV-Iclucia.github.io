@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="本次实验只有一个难度为hard\text{hard}hard的任务，实现fork的写时复制。这一次以及上一次实验我们都是在利用页表机制和trap的结合，也就是Page Fault\text{Page Fault}Page Fault，来完成赶ddl物理内存的按需分配。 虽然任务只有一个，但是做得极为艰难。。。最后也是看了教授讲解发现自己有个地方出bug了才改对。按照我自己的做法是没怎么考虑多个CP">
+    <meta name="description" content="进度条即将过半...">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT6.S081 Lab-6: Traps">
+<meta property="og:title" content="MIT6.S081 Lab-6: Copy on Write">
 <meta property="og:url" content="http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
-<meta property="og:description" content="本次实验只有一个难度为hard\text{hard}hard的任务，实现fork的写时复制。这一次以及上一次实验我们都是在利用页表机制和trap的结合，也就是Page Fault\text{Page Fault}Page Fault，来完成赶ddl物理内存的按需分配。 虽然任务只有一个，但是做得极为艰难。。。最后也是看了教授讲解发现自己有个地方出bug了才改对。按照我自己的做法是没怎么考虑多个CP">
+<meta property="og:description" content="进度条即将过半...">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-18T08:19:59.000Z">
-<meta property="article:modified_time" content="2023-02-21T22:57:00.302Z">
+<meta property="article:modified_time" content="2023-02-24T14:45:02.542Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
@@ -37,10 +37,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","path":"2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","title":"MIT6.S081 Lab-6: Traps"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","path":"2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/","title":"MIT6.S081 Lab-6: Copy on Write"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>MIT6.S081 Lab-6: Traps | "The World" of CLV</title>
+<title>MIT6.S081 Lab-6: Copy on Write | "The World" of CLV</title>
   
 
 
@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,12 +188,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="MIT6.S081 Lab-6: Traps | "The World" of CLV">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="MIT6.S081 Lab-6: Copy on Write | "The World" of CLV">
+      <meta itemprop="description" content="进度条即将过半...">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MIT6.S081 Lab-6: Traps
+          MIT6.S081 Lab-6: Copy on Write
         </h1>
 
         <div class="post-meta-container">
@@ -211,12 +211,13 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 06:57:00" itemprop="dateModified" datetime="2023-02-22T06:57:00+08:00">2023-02-22</time>
+      <time title="Modified: 2023-02-24 22:45:02" itemprop="dateModified" datetime="2023-02-24T22:45:02+08:00">2023-02-24</time>
     </span>
 
   
 </div>
 
+            <div class="post-description">进度条即将过半...</div>
         </div>
       </header>
 
