@@ -129,7 +129,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,7 +205,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-27 14:25:55" itemprop="dateModified" datetime="2023-02-27T14:25:55+08:00">2023-02-27</time>
+      <time title="Modified: 2023-02-27 14:29:31" itemprop="dateModified" datetime="2023-02-27T14:29:31+08:00">2023-02-27</time>
     </span>
 
   
@@ -655,7 +655,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/31/CSC417-Physics-Based-Animation-Lab-2-FEM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -673,7 +673,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/" class="post-title-link" itemprop="url">CSC417-Physics Based Animation-Lab-0/1: Mass-Spring Systems</a>
+          <a href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-2-FEM/" class="post-title-link" itemprop="url">CSC417-Physics Based Animation-Lab-3: Vanilla FEM Simulation</a>
         </h2>
 
         <div class="post-meta-container">
@@ -691,7 +691,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-08 20:16:20" itemprop="dateModified" datetime="2023-02-08T20:16:20+08:00">2023-02-08</time>
+      <time title="Modified: 2023-02-27 21:18:55" itemprop="dateModified" datetime="2023-02-27T21:18:55+08:00">2023-02-27</time>
     </span>
 
   
@@ -706,10 +706,11 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="为什么要开这个坑">为什么要开这个坑:</h1>
 <p>其实我原本可以选择<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>的。。。但是一方面<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>用的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Unity</mtext></mrow><annotation encoding="application/x-tex">\text{Unity}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Unity</span></span></span></span></span>引擎做作业，我不太适应。另一方面，比较下来感觉<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CSC417</mtext></mrow><annotation encoding="application/x-tex">\text{CSC417}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CSC417</span></span></span></span></span>对物理原理和数学推导的阐述比<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES103</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES103}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES103</span></span></span></span></span>更清楚（至少对我来说如此）。因此用这门课的作业来学习物理模拟。</p>
-<p>本篇<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>blog</mtext></mrow><annotation encoding="application/x-tex">\text{blog}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">blog</span></span></span></span></span>记录<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab-0</mtext></mrow><annotation encoding="application/x-tex">\text{Lab-0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab-0</span></span></span></span></span>以及<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab-1</mtext></mrow><annotation encoding="application/x-tex">\text{Lab-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab-1</span></span></span></span></span>，都是在解弹簧质点系统。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES101</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES101}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES101</span></span></span></span></span>中写过简单的弹簧质点系统模拟绳子。而这两次作业模拟弹簧质点的复杂程度会比那个大很多。</p>
+<p>本篇<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>blog</mtext></mrow><annotation encoding="application/x-tex">\text{blog}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">blog</span></span></span></span></span>直接从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab-3</mtext></mrow><annotation encoding="application/x-tex">\text{Lab-3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab-3</span></span></span></span></span>开始，因为前面的弹簧质点说实话。。。不难，就是麻烦<s>其实是我第二个实验不知道为什么怎么写都炸</s>，当然比<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GAMES101</mtext></mrow><annotation encoding="application/x-tex">\text{GAMES101}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GAMES101</span></span></span></span></span>那个绳子模拟要难些，但是总体而言新东西不多，除了从拉格朗日视角推出了模拟的微分方程。</p>
+<p>这次<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab</span></span></span></span></span>重点在于引入了有限元这一重要方法，推导过程也较长较复杂。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-0/#more" rel="contents">
+              <a class="btn" href="/2023/01/31/CSC417-Physics-Based-Animation-Lab-2-FEM/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

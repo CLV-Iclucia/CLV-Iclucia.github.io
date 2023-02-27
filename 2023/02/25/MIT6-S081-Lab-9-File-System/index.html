@@ -27,7 +27,7 @@
 <meta property="og:description" content="做完这个就鸽了吧。。。系统级编程暂时告一段落">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-25T12:38:47.000Z">
-<meta property="article:modified_time" content="2023-02-27T06:25:55.628Z">
+<meta property="article:modified_time" content="2023-02-27T06:29:31.430Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-27 14:25:55" itemprop="dateModified" datetime="2023-02-27T14:25:55+08:00">2023-02-27</time>
+      <time title="Modified: 2023-02-27 14:29:31" itemprop="dateModified" datetime="2023-02-27T14:29:31+08:00">2023-02-27</time>
     </span>
 
   
@@ -251,6 +251,7 @@
 <p>这里我们使用<code>follow_symlink</code>函数（实现见后）跟踪符号链接文件直到我们遇到一个真正的文件，并将其<code>inode</code>指针保存在第一个参数对应的地址中。这样就得到了实际文件的<code>inode</code>，用这个<code>inode</code>指针替换原来的<code>inode</code>指针即可，当然注意加锁。</p>
 <p><code>follow_symlink</code>函数通过符号链接文件跟踪其指向的文件。由于可能指向另一个符号链接文件，我们需要递归进行访问。当然，符号链接的指向关系可能会出现循环的情况，为了防止这种情况造成无限递归，同时也为了防止递归深度过深，只要设定一个递归最大层数即可。如此一来就没什么问题了，唯一要注意的就是记得及时加锁以及及时释放锁。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> </span><br><span class="line"><span class="type">int</span> <span class="title function_">follow_symlink</span><span class="params">(<span class="keyword">struct</span> inode **ipp, <span class="type">char</span> *path, uint depth)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span>(depth &gt;= LINK_THREASHOLD) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">inode</span> *<span class="title">ip</span>;</span></span><br><span class="line">  <span class="comment">// if the file doesn&#x27;t exist, we return</span></span><br><span class="line">  <span class="keyword">if</span>((ip = namei(path)) == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  ilock(ip);</span><br><span class="line">  <span class="keyword">if</span>(ip-&gt;type != T_SYMLINK)</span><br><span class="line">  &#123;</span><br><span class="line">    *ipp = ip;</span><br><span class="line">    iunlock(ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">char</span> target[MAXPATH];</span><br><span class="line">  uint len = readi(ip, <span class="number">0</span>, (uint64)target, <span class="number">0</span>, MAXPATH);</span><br><span class="line">  <span class="comment">// if we cannot read anything from the file, we return</span></span><br><span class="line">  <span class="keyword">if</span>(len == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    iunlock(ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">int</span> ret = follow_symlink(ipp, target, depth + <span class="number">1</span>);</span><br><span class="line">  iunlock(ip);</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后很奇怪的是运行<code>symlinktest</code>的时候老是会因为<code>inode</code>空间用光了而<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>panic</mtext></mrow><annotation encoding="application/x-tex">\text{panic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623000000000001em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">panic</span></span></span></span></span>，实话说我也没明白啥情况，最后把<code>inode</code>的空间调大了一点点就莫名其妙地过了。。。</p>
 <p>于是这次实验就做完了。后面两个实验看来难度都较大，系统级编程到此暂时结束了，等到<s>血源诅咒上PC了</s>有时间再来补上最后两个实验吧。</p>
 
     </div>
