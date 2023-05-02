@@ -27,7 +27,7 @@
 <meta property="og:description" content="又是没有hard的一天...而且是个令人兴奋的话题">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-21T22:59:39.000Z">
-<meta property="article:modified_time" content="2023-02-22T15:18:10.634Z">
+<meta property="article:modified_time" content="2023-05-02T16:23:23.180Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
@@ -129,13 +129,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -204,9 +204,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-02-22 06:59:39 / Modified: 23:18:10" itemprop="dateCreated datePublished" datetime="2023-02-22T06:59:39+08:00">2023-02-22</time>
+      <time title="Created: 2023-02-22 06:59:39" itemprop="dateCreated datePublished" datetime="2023-02-22T06:59:39+08:00">2023-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-05-03 00:23:23" itemprop="dateModified" datetime="2023-05-03T00:23:23+08:00">2023-05-03</time>
     </span>
 
   
@@ -221,7 +227,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>我们暂时结束了对于虚拟内存的探索，转向另外一个有趣而且有用的话题————多线程，或者说，并发。众所周知<s>实际上我才知道</s>，多线程是实现并发的手段之一，如果<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>有多核那么我们甚至可以实现并行。当然，这次实验的主题就是调度。</p>
-<p>操作系统的一个主要功能就是对硬件进行抽象，前面的虚拟内存就是对于内存的抽象，而进程调度则是对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>的抽象。通过合理调度，我们使得每个进程都能在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>上被执行，这种雨露均沾就仿佛每个进程都有属于自己的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>一样。</p>
+<p>操作系统的一个主要功能就是对硬件进行抽象，前面的虚拟内存就是对于内存的抽象，而进程/线程调度则是对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>的抽象。通过合理调度，我们使得每个进程/线程都能在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>上被执行，这种雨露均沾就仿佛每个进程/线程都有属于自己的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>一样。</p>
 <h1 id="text-1-在uthread-c中模拟线程切换"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 在uthread.c中模拟线程切换</mtext></mrow><annotation encoding="application/x-tex">\text{1. 在uthread.c中模拟线程切换}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">在</span><span class="mord">uthread.c</span><span class="mord cjk_fallback">中模拟线程切换</span></span></span></span></span></h1>
 <p>其实不难，这些东西我们在之前写<code>sigalarm</code>和<code>sigreturn</code>系统调用的时候已经初步尝试过一遍了。我们需要做的是：保存<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Callee-Saved</mtext></mrow><annotation encoding="application/x-tex">\text{Callee-Saved}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Callee-Saved</span></span></span></span></span>寄存器，让<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>ra</mtext></mrow><annotation encoding="application/x-tex">\text{ra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">ra</span></span></span></span></span>指向待执行函数的地址，让<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>sp</mtext></mrow><annotation encoding="application/x-tex">\text{sp}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">sp</span></span></span></span></span>指向新线程的栈的地址。</p>
 <p>于是我们发现，我们需要的东西就是一个<code>context</code>结构体。于是可以在<code>thread</code>结构体中加入一个<code>context</code>类型的字段<code>ctx</code>，这样我们进一步发现，虽然我们要用汇编实现一个<code>thread_switch</code>函数，但是事实上我们只需要把内核代码的<code>swtch.S</code>借鉴<s>照抄</s>过来就可以。当然，为了更方便地照抄，你可以把<code>ctx</code>放在<code>thread</code>定义的开头，这样就改都不用改（如果放在后面，整体要加偏移）。</p>
@@ -245,7 +251,7 @@
 <p>此外，我们还注意到另一种可能性是不修改链表结构，但是修改某个键对应的值，这种情况下不需要加锁，因为它本身具有原子性。代码很简单，这里就不放出来了，给每个链表一个线程锁就可以。加锁以后结果就正确了，但是显而易见地没有不加锁的情况那么快了。</p>
 <p>指南里说，如果你直接加锁的话可能会无法通过所有测试，因为比较慢，需要优化。。。然后我发现我写出来的就是比较快的版本，不用优化也过了。。。对此我的猜测是，另一种OK但是很慢的方式是给整个哈希表加锁（而不是给每个链表单独加锁），这么蠢的办法自然就慢一些了。。。</p>
 <h1 id="text-3-barrier"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. Barrier</mtext></mrow><annotation encoding="application/x-tex">\text{3. Barrier}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">3. Barrier</span></span></span></span></span></h1>
-<p>这也是并行编程中常常遇到的一个概念，故名思义，它的作用是将所有的线程“拦下来”使其同步。具体而言，</p>
+<p>这也是并行编程中常常遇到的一个概念，故名思义，它的作用是将所有的线程“拦下来”使其同步。</p>
 <p><code>barrier</code>结构体的定义和一部分初始化代码已经给我们了，我们的目标是实现<code>barrier()</code>函数，每个线程调用<code>barrier()</code>时就会停下来，直到所有线程同步了再继续各跑各的。</p>
 <p>这个题嘛，确实不难，个人对自己的做法正确性还是有信心。但是编译开了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>O2</mtext></mrow><annotation encoding="application/x-tex">\text{O2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">O2</span></span></span></span></span>优化，然后给我把一个死循环（其实类似于一种锁的实现吧）给优化了，老是莫名奇妙地挂，然后去掉<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>O2</mtext></mrow><annotation encoding="application/x-tex">\text{O2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">O2</span></span></span></span></span>优化就好了。。。</p>
 <p>这里还是有点麻烦，对于几个锁的理解要比较清楚<s>虽然我也没多清楚</s>，尤其要注意条件锁的机制，比如<code>pthread_cond_wait</code>存在虚拟唤醒的情况，最好拿循环包住，这些在课程中也有提到，这里不细说。</p>

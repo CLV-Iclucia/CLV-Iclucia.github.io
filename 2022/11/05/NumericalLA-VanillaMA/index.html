@@ -27,7 +27,7 @@
 <meta property="og:description" content="A start-up introduction to the basic matrix analysis in numerical linear algebra.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-11-04T16:07:44.000Z">
-<meta property="article:modified_time" content="2022-12-10T14:02:35.746Z">
+<meta property="article:modified_time" content="2023-05-02T15:44:14.065Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Numerical Method">
 <meta name="twitter:card" content="summary">
@@ -129,13 +129,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-10 22:02:35" itemprop="dateModified" datetime="2022-12-10T22:02:35+08:00">2022-12-10</time>
+      <time title="Modified: 2023-05-02 23:44:14" itemprop="dateModified" datetime="2023-05-02T23:44:14+08:00">2023-05-02</time>
     </span>
 
   
@@ -232,8 +232,7 @@
 <h3 id="这是线性代数剩下的还需要学习的内容-这个系列博客会用来记录数值线性代数中的一些理论与应用">这是线性代数剩下的还需要学习的内容。 这个系列博客会用来记录数值线性代数中的一些理论与应用。</h3>
 <span id="more"></span>
 <p><s>没错你已经发现了这不是讲线性代数的而是讲数值线性代数的</s></p>
-<p>关于数值线代在网上并没有找到什么特别猛料的网课（也可能是我手段不足？），不过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MIT</mtext></mrow><annotation encoding="application/x-tex">\text{MIT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MIT</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Strang</mtext></mrow><annotation encoding="application/x-tex">\text{Strang}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Strang</span></span></span></span></span>老爷子新开的&quot;数据分析中的矩阵方法&quot;还是非常不错，就是太简单了，属于是讲给宝宝的矩阵计算入门<s>特别适合下饭或者赶路</s>。这里主要还是用数值线代的圣经 <em>Matrix Computation</em> 来学习。</p>
-<p>跳过 <em>Matrix Computation</em> 的第一章(Introduction)，将从第二章开始。</p>
+<p>关于数值线代在网上并没有找到什么特别猛料的网课（也可能是我手段不足？），不过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MIT</mtext></mrow><annotation encoding="application/x-tex">\text{MIT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MIT</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Strang</mtext></mrow><annotation encoding="application/x-tex">\text{Strang}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Strang</span></span></span></span></span>老爷子新开的&quot;数据分析中的矩阵方法&quot;还是非常不错，就是太简单了，属于是讲给宝宝的矩阵计算入门<s>特别适合下饭或者赶路</s>。这一次我们参考数值线代的圣经 <em>Matrix Computation</em> 来学习。</p>
 <h1 id="text-2-矩阵分析基础"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. 矩阵分析基础</mtext></mrow><annotation encoding="application/x-tex">\text{2. 矩阵分析基础}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">2. </span><span class="mord cjk_fallback">矩阵分析基础</span></span></span></span></span></h1>
 <p>很多东西在别的地方都有提过，无论是数学物理方法还是数值分析都有讲过向量范数，矩阵范数等等的概念，这些概念在此当然不会再全部扯一遍<s>当然在那些地方我也不会再扯一遍</s>。这里只是过一些简单的结论和话题。这一章的主要目的应当还是掌握必备的误差估计的知识。</p>
 <h2 id="text-2-1-first-things-first"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2.1. First Things First</mtext></mrow><annotation encoding="application/x-tex">\text{2.1. First Things First}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">2.1. First Things First</span></span></span></span></span></h2>
