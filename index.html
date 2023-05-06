@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -169,7 +169,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/02/NumericalLA-Linear-Systems/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/06/NumericalLA-Linear-Systems-Direct/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -187,7 +187,93 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/02/NumericalLA-Linear-Systems/" class="post-title-link" itemprop="url">Linear Algebra Done Left - A Taste of Iterative Methods for Linear Systems</a>
+          <a href="/2023/05/06/NumericalLA-Linear-Systems-Direct/" class="post-title-link" itemprop="url">Linear Algebra Done Left - A Taste of Direct Methods for Linear Systems</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-05-06 11:39:17" itemprop="dateCreated datePublished" datetime="2023-05-06T11:39:17+08:00">2023-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-05-07 00:36:18" itemprop="dateModified" datetime="2023-05-07T00:36:18+08:00">2023-05-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>虽然最近情况越来越糟糕了，但为了补充完善这方面的知识还是在这危急存亡之际再来写写这个系列的第三篇。。。也就是稀疏矩阵的直接求解方法。</p>
+<p>上一篇讲过了矩阵的一些迭代求解方法，这些方法可以很自然地应用于稀疏矩阵中。然而直接方法就并非如此了。通常，直接方法将矩阵分解为三角阵的乘积（这一步必然是立方复杂度），分别求解。然而，稀疏矩阵的规模巨大，直接套用稠密矩阵的做法并没有充分利用稀疏性，效率必然很低，还有可能导致分解之后退化为稠密矩阵。因此稀疏矩阵求解的直接方法往往比迭代方法复杂很多。</p>
+<p>比较麻烦的事情是国内似乎缺少这方面的专著，经过一顿搜索和试读后，这里参考<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Jennifer Scott</mtext></mrow><annotation encoding="application/x-tex">\text{Jennifer Scott}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Jennifer Scott</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Algorithms for Sparse Linear Systems</mtext></mrow><annotation encoding="application/x-tex">\text{Algorithms for Sparse Linear Systems}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Algorithms for Sparse Linear Systems</span></span></span></span></span>这本书，个人认为这本书的思路更加清晰。另一本经典著作则是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Duff</mtext></mrow><annotation encoding="application/x-tex">\text{Duff}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Duff</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Direct Methods for Sparse Matrices</mtext></mrow><annotation encoding="application/x-tex">\text{Direct Methods for Sparse Matrices}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Direct Methods for Sparse Matrices</span></span></span></span></span>，<s>因为看了一会儿就云里雾里了</s>在此也作为参考。</p>
+<p>整个话题相当庞杂，因此这篇文章也是长期更新。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/06/NumericalLA-Linear-Systems-Direct/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/02/NumericalLA-Linear-Systems-Itetrative/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | "The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/02/NumericalLA-Linear-Systems-Itetrative/" class="post-title-link" itemprop="url">Linear Algebra Done Left - A Taste of Iterative Methods for Linear Systems</a>
         </h2>
 
         <div class="post-meta-container">
@@ -205,7 +291,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-05-04 23:04:08" itemprop="dateModified" datetime="2023-05-04T23:04:08+08:00">2023-05-04</time>
+      <time title="Modified: 2023-05-07 00:39:21" itemprop="dateModified" datetime="2023-05-07T00:39:21+08:00">2023-05-07</time>
     </span>
 
   
@@ -221,10 +307,10 @@
           <p>这个系列的第二篇从上学期鸽到现在。。。</p>
 <p>线性代数最基本的问题就是解线性系统了，但是这也是个很不<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>trivial</mtext></mrow><annotation encoding="application/x-tex">\text{trivial}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">trivial</span></span></span></span></span>的问题。</p>
 <p>求解线性系统，主要有两类方法，直接求解（分解）或者迭代方法。对于大型稀疏矩阵而言，两种方法各有优势，都有不少深入的文献和代码可以学习。这次简要介绍求解线性系统的迭代方法，直接方法留到这个系列的第三篇（又不知道会鸽到什么时候了，大悲）。</p>
-<p>迭代法是一个很大的话题，也有一些专著，比如<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Yousef Saad</mtext></mrow><annotation encoding="application/x-tex">\text{Yousef Saad}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Yousef Saad</span></span></span></span></span>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GMRES</mtext></mrow><annotation encoding="application/x-tex">\text{GMRES}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GMRES</span></span></span></span></span>方法的发明者)的书<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Iterative Methods for Sparse Linear Systems</mtext></mrow><annotation encoding="application/x-tex">\text{Iterative Methods for Sparse Linear Systems}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Iterative Methods for Sparse Linear Systems</span></span></span></span></span>。这次不仅参考了这本书，同时也参考了徐树方的数值线性代数。</p>
+<p>迭代法是一个很大的话题，也有一些专著，比如<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Yousef Saad</mtext></mrow><annotation encoding="application/x-tex">\text{Yousef Saad}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Yousef Saad</span></span></span></span></span>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GMRES</mtext></mrow><annotation encoding="application/x-tex">\text{GMRES}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GMRES</span></span></span></span></span>方法的发明者)的书<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Iterative Methods for Sparse Linear Systems</mtext></mrow><annotation encoding="application/x-tex">\text{Iterative Methods for Sparse Linear Systems}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Iterative Methods for Sparse Linear Systems</span></span></span></span></span>。这次不仅参考了这本书，同时也参考了徐树方的数值线性代数。当然，由于内容丰富不可能一下子学完，这篇小水文也会随着我的继续学习长期更新<s>写完共轭梯度就咕咕</s>。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/05/02/NumericalLA-Linear-Systems/#more" rel="contents">
+              <a class="btn" href="/2023/05/02/NumericalLA-Linear-Systems-Itetrative/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -883,89 +969,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/11/MIT6-S081-Lab-4-Traps/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/11/MIT6-S081-Lab-4-Traps/" class="post-title-link" itemprop="url">MIT6.S081 Lab-4: Traps</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-11 22:04:51" itemprop="dateCreated datePublished" datetime="2023-02-11T22:04:51+08:00">2023-02-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-14 00:07:54" itemprop="dateModified" datetime="2023-02-14T00:07:54+08:00">2023-02-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>比上次还是轻松了不少呢......</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/11/MIT6-S081-Lab-4-Traps/">
                 Read more &raquo;
               </a>
             </div>
