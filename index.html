@@ -205,7 +205,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-05-07 00:36:18" itemprop="dateModified" datetime="2023-05-07T00:36:18+08:00">2023-05-07</time>
+      <time title="Modified: 2023-05-15 23:29:47" itemprop="dateModified" datetime="2023-05-15T23:29:47+08:00">2023-05-15</time>
     </span>
 
   
@@ -218,10 +218,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>虽然最近情况越来越糟糕了，但为了补充完善这方面的知识还是在这危急存亡之际再来写写这个系列的第三篇。。。也就是稀疏矩阵的直接求解方法。</p>
+          <p>最近更新速度比我想的要快，这就出第三篇了。。。也就是稀疏矩阵的直接求解方法。</p>
 <p>上一篇讲过了矩阵的一些迭代求解方法，这些方法可以很自然地应用于稀疏矩阵中。然而直接方法就并非如此了。通常，直接方法将矩阵分解为三角阵的乘积（这一步必然是立方复杂度），分别求解。然而，稀疏矩阵的规模巨大，直接套用稠密矩阵的做法并没有充分利用稀疏性，效率必然很低，还有可能导致分解之后退化为稠密矩阵。因此稀疏矩阵求解的直接方法往往比迭代方法复杂很多。</p>
-<p>比较麻烦的事情是国内似乎缺少这方面的专著，经过一顿搜索和试读后，这里参考<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Jennifer Scott</mtext></mrow><annotation encoding="application/x-tex">\text{Jennifer Scott}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Jennifer Scott</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Algorithms for Sparse Linear Systems</mtext></mrow><annotation encoding="application/x-tex">\text{Algorithms for Sparse Linear Systems}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Algorithms for Sparse Linear Systems</span></span></span></span></span>这本书，个人认为这本书的思路更加清晰。另一本经典著作则是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Duff</mtext></mrow><annotation encoding="application/x-tex">\text{Duff}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Duff</span></span></span></span></span>的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Direct Methods for Sparse Matrices</mtext></mrow><annotation encoding="application/x-tex">\text{Direct Methods for Sparse Matrices}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Direct Methods for Sparse Matrices</span></span></span></span></span>，<s>因为看了一会儿就云里雾里了</s>在此也作为参考。</p>
-<p>整个话题相当庞杂，因此这篇文章也是长期更新。</p>
+<p>整个话题相当庞杂，因此这篇文章也是长期更新。<s>但是显然我没有那么多工夫去天天折腾数值算法所以说不准哪天本文就永远停更了</s></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/06/NumericalLA-Linear-Systems-Direct/#more" rel="contents">
@@ -291,7 +290,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-05-07 00:39:21" itemprop="dateModified" datetime="2023-05-07T00:39:21+08:00">2023-05-07</time>
+      <time title="Modified: 2023-05-07 23:39:53" itemprop="dateModified" datetime="2023-05-07T23:39:53+08:00">2023-05-07</time>
     </span>
 
   
