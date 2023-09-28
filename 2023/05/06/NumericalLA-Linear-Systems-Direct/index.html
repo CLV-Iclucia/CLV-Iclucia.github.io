@@ -27,7 +27,7 @@
 <meta property="og:description" content="最近更新速度比我想的要快，这就出第三篇了。。。也就是稀疏矩阵的直接求解方法。 上一篇讲过了矩阵的一些迭代求解方法，这些方法可以很自然地应用于稀疏矩阵中。然而直接方法就并非如此了。通常，直接方法将矩阵分解为三角阵的乘积（这一步必然是立方复杂度），分别求解。然而，稀疏矩阵的规模巨大，直接套用稠密矩阵的做法并没有充分利用稀疏性，效率必然很低，还有可能导致分解之后退化为稠密矩阵。因此稀疏矩阵求解的直接方法">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-06T03:39:17.000Z">
-<meta property="article:modified_time" content="2023-05-22T11:07:42.811Z">
+<meta property="article:modified_time" content="2023-05-22T14:23:58.055Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Numerical Method">
 <meta name="twitter:card" content="summary">
@@ -129,13 +129,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-05-22 19:07:42" itemprop="dateModified" datetime="2023-05-22T19:07:42+08:00">2023-05-22</time>
+      <time title="Modified: 2023-05-22 22:23:58" itemprop="dateModified" datetime="2023-05-22T22:23:58+08:00">2023-05-22</time>
     </span>
 
   
@@ -329,7 +329,7 @@ c-4-3.333-8.333-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667
 <p>这显然是对的。</p>
 <h2 id="text-2-3-reordering"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2.3. Reordering</mtext></mrow><annotation encoding="application/x-tex">\text{2.3. Reordering}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">2.3. Reordering</span></span></span></span></span></h2>
 <p>我们最希望的事情就是排序完成后作分解的时候不会填入过多的数，但是最小化这个量是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>NPC</mtext></mrow><annotation encoding="application/x-tex">\text{NPC}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">NPC</span></span></span></span></span>问题，所以我们只好选一些替代方案。</p>
-<p>这就又是一个超级大的话题，这里只介绍一个<strong>近似最小度算法</strong>，也简称<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>AMD</mtext></mrow><annotation encoding="application/x-tex">\text{AMD}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">AMD</span></span></span></span></span>算法。<s>打钱！</s></p>
+<p>这就又是一个超级大的话题，这里暂时不加介绍了。</p>
 
     </div>
 
@@ -351,6 +351,9 @@ c-4-3.333-8.333-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2023/05/16/Best-Junk-Cpp/" rel="next" title="C++是最好的垃圾语言">
+                  C++是最好的垃圾语言 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
