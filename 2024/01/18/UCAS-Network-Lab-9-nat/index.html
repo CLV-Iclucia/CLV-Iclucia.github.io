@@ -27,7 +27,7 @@
 <meta property="og:description" content="1. 分析参考\text{1. 分析参考}1. 分析参考 首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。 首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。 然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-01-17T23:05:47.000Z">
-<meta property="article:modified_time" content="2024-01-18T01:29:37.384Z">
+<meta property="article:modified_time" content="2024-01-30T02:25:55.887Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
@@ -204,9 +204,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-01-18 07:05:47 / Modified: 09:29:37" itemprop="dateCreated datePublished" datetime="2024-01-18T07:05:47+08:00">2024-01-18</time>
+      <time title="Created: 2024-01-18 07:05:47" itemprop="dateCreated datePublished" datetime="2024-01-18T07:05:47+08:00">2024-01-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-01-30 10:25:55" itemprop="dateModified" datetime="2024-01-30T10:25:55+08:00">2024-01-30</time>
     </span>
 
   
