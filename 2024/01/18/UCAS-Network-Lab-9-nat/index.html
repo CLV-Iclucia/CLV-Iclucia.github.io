@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="$\text{1. 分析参考}$首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。 首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。 然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地址就是这个地址，同时端口号">
+    <meta name="description" content="1. 分析参考\text{1. 分析参考}1. 分析参考 首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。 首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。 然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UCAS-Network-Lab-9-Nat">
 <meta property="og:url" content="http://example.com/2024/01/18/UCAS-Network-Lab-9-nat/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
-<meta property="og:description" content="$\text{1. 分析参考}$首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。 首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。 然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地址就是这个地址，同时端口号">
+<meta property="og:description" content="1. 分析参考\text{1. 分析参考}1. 分析参考 首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。 首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。 然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-01-17T23:05:47.000Z">
 <meta property="article:modified_time" content="2024-01-30T02:25:55.887Z">
@@ -51,7 +51,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-1-%E5%88%86%E6%9E%90%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">$\text{1. 分析参考}$</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#text1-%E5%88%86%E6%9E%90%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text"> 1. 分析参考\text{1. 分析参考}1. 分析参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -225,7 +225,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="text-1-分析参考"><a href="#text-1-分析参考" class="headerlink" title="$\text{1. 分析参考}$"></a>$\text{1. 分析参考}$</h2><p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
+        <h2 id="text1-分析参考"><a class="markdownIt-Anchor" href="#text1-分析参考"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 分析参考</mtext></mrow><annotation encoding="application/x-tex">\text{1. 分析参考}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">分析参考</span></span></span></span></span></h2>
+<p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
 <p>首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。</p>
 <p>然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地址就是这个地址，同时端口号也是40580。nat收到这个包之后，将其ip地址翻译为h1的ip地址，端口号翻译为12345，然后发给h1。</p>
 <p>接下来是dnat。分析出来的过程为：h3发出wget请求，使用的是公网的ip和端口号，经过nat，发送的目标则也使用公网ip和公网的端口号8001，nat将该ip以及端口号翻译为相应的私网ip(h2)以及端口号(8000)，从而发送给h2的相应端口。</p>
@@ -299,6 +300,11 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
 
 
 

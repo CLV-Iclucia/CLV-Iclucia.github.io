@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="平时遇到的琐碎的$\text{C++}$稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。 虽然$\text{C++}$麻烦得雅痞，但还是得靠它吃饭啊。">
+    <meta name="description" content="平时遇到的琐碎的C++\text{C++}C++稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。 虽然C++\text{C++}C++麻烦得雅痞，但还是得靠它吃饭啊。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++是最好的垃圾语言">
 <meta property="og:url" content="http://example.com/2023/05/16/Best-Junk-Cpp/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
-<meta property="og:description" content="平时遇到的琐碎的$\text{C++}$稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。 虽然$\text{C++}$麻烦得雅痞，但还是得靠它吃饭啊。">
+<meta property="og:description" content="平时遇到的琐碎的C++\text{C++}C++稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。 虽然C++\text{C++}C++麻烦得雅痞，但还是得靠它吃饭啊。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-16T07:04:46.000Z">
 <meta property="article:modified_time" content="2023-09-30T15:47:56.230Z">
@@ -51,7 +51,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%90%83%E5%8F%96%E5%92%8C-text-using"><span class="nav-number">1.</span> <span class="nav-text">类型萃取和$\text{using}$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%80%BC%E7%B1%BB%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">表达式的值类别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E4%B8%8D%E4%B8%87%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">编译器不万能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%92%8C-text-RAII"><span class="nav-number">4.</span> <span class="nav-text">智能指针和$\text{RAII}$</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%90%83%E5%8F%96%E5%92%8Ctextusing"><span class="nav-number">1.</span> <span class="nav-text"> 类型萃取和using\text{using}using</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%80%BC%E7%B1%BB%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text"> 表达式的值类别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E4%B8%8D%E4%B8%87%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text"> 编译器不万能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%92%8Ctextraii"><span class="nav-number">4.</span> <span class="nav-text"> 智能指针和RAII\text{RAII}RAII</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -225,28 +225,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>平时遇到的琐碎的$\text{C++}$稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。</p>
-<p>虽然$\text{C++}$麻烦得雅痞，但还是得靠它吃饭啊。</p>
+        <p>平时遇到的琐碎的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C++</mtext></mrow><annotation encoding="application/x-tex">\text{C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">C++</span></span></span></span></span>稀奇古怪的知识，稀奇古怪的邪道和稀奇古怪的黑魔法。</p>
+<p>虽然<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C++</mtext></mrow><annotation encoding="application/x-tex">\text{C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">C++</span></span></span></span></span>麻烦得雅痞，但还是得靠它吃饭啊。</p>
 <span id="more"></span>
-
-<h1 id="类型萃取和-text-using"><a href="#类型萃取和-text-using" class="headerlink" title="类型萃取和$\text{using}$"></a>类型萃取和$\text{using}$</h1><p>注意<code>using</code>的适用范围，只能引命名空间，基类和枚举。</p>
+<h1 id="类型萃取和textusing"><a class="markdownIt-Anchor" href="#类型萃取和textusing"></a> 类型萃取和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>using</mtext></mrow><annotation encoding="application/x-tex">\text{using}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623000000000001em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">using</span></span></span></span></span></h1>
+<p>注意<code>using</code>的适用范围，只能引命名空间，基类和枚举。</p>
 <p>所以，如果想要进行类型萃取得到一些编译期常量，目前我能想到的办法只能是<code>static constexpr</code></p>
-<h1 id="表达式的值类别"><a href="#表达式的值类别" class="headerlink" title="表达式的值类别"></a>表达式的值类别</h1><p>只是简单区分左值和右值是不够的。现代$\text{C++}$标准规定了$5$种值类别——泛左值，纯右值，亡值，左值，右值。</p>
+<h1 id="表达式的值类别"><a class="markdownIt-Anchor" href="#表达式的值类别"></a> 表达式的值类别</h1>
+<p>只是简单区分左值和右值是不够的。现代<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C++</mtext></mrow><annotation encoding="application/x-tex">\text{C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">C++</span></span></span></span></span>标准规定了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn></mrow><annotation encoding="application/x-tex">5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span></span></span></span>种值类别——泛左值，纯右值，亡值，左值，右值。</p>
 <p>在这里挖个坑吧：<a target="_blank" rel="noopener" href="https://zh.cppreference.com/w/cpp/language/value_category">来自cppreference的解释</a>。在以后编写代码的时候，对于每个表达式都一定心里要清楚是什么值。</p>
-<h1 id="编译器不万能"><a href="#编译器不万能" class="headerlink" title="编译器不万能"></a>编译器不万能</h1><p>如果有可能，还是拿去$\text{compiler explorer}$看看代码编译出来的汇编啥样。既然用上了$\text{C++}$，对性能的起码追求是得有的。如果要看函数是否内联了，常量是否传播了，稠密的操作是否向量化了，都只有看最后的汇编才能看出来。而这一点，不同的编译器跑出来的优化很可能是有区别的。</p>
+<h1 id="编译器不万能"><a class="markdownIt-Anchor" href="#编译器不万能"></a> 编译器不万能</h1>
+<p>如果有可能，还是拿去<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>compiler explorer</mtext></mrow><annotation encoding="application/x-tex">\text{compiler explorer}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">compiler explorer</span></span></span></span></span>看看代码编译出来的汇编啥样。既然用上了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C++</mtext></mrow><annotation encoding="application/x-tex">\text{C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">C++</span></span></span></span></span>，对性能的起码追求是得有的。如果要看函数是否内联了，常量是否传播了，稠密的操作是否向量化了，都只有看最后的汇编才能看出来。而这一点，不同的编译器跑出来的优化很可能是有区别的。</p>
 <p>举例子，我用迭代器封装了稠密向量的顺序访问，写了个向量点积，然后希望知道编译器把它优化成什么样了。</p>
-<p>开启$\text{O3}$优化的情况下，$\text{gcc}$和$\text{MSVC}$都能自动内联，把迭代器给优化掉。但是其中$\text{gcc}$并没有发现并行性，一个个傻算的，而$\text{MSVC}$发现了并行性，启用了$\text{SIMD}$优化。</p>
-<p>如果把迭代器改成经典的指标循环，$\text{gcc}$就会发现并行性（中间封装了一层重载运算符，被内联了）并且启用$\text{SIMD}$优化。</p>
+<p>开启<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>O3</mtext></mrow><annotation encoding="application/x-tex">\text{O3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">O3</span></span></span></span></span>优化的情况下，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>gcc</mtext></mrow><annotation encoding="application/x-tex">\text{gcc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">gcc</span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MSVC</mtext></mrow><annotation encoding="application/x-tex">\text{MSVC}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MSVC</span></span></span></span></span>都能自动内联，把迭代器给优化掉。但是其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>gcc</mtext></mrow><annotation encoding="application/x-tex">\text{gcc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">gcc</span></span></span></span></span>并没有发现并行性，一个个傻算的，而<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MSVC</mtext></mrow><annotation encoding="application/x-tex">\text{MSVC}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MSVC</span></span></span></span></span>发现了并行性，启用了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SIMD</mtext></mrow><annotation encoding="application/x-tex">\text{SIMD}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SIMD</span></span></span></span></span>优化。</p>
+<p>如果把迭代器改成经典的指标循环，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>gcc</mtext></mrow><annotation encoding="application/x-tex">\text{gcc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">gcc</span></span></span></span></span>就会发现并行性（中间封装了一层重载运算符，被内联了）并且启用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SIMD</mtext></mrow><annotation encoding="application/x-tex">\text{SIMD}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SIMD</span></span></span></span></span>优化。</p>
 <p>所以啊，这些东西还是得自个去试验。。。</p>
-<h1 id="智能指针和-text-RAII"><a href="#智能指针和-text-RAII" class="headerlink" title="智能指针和$\text{RAII}$"></a>智能指针和$\text{RAII}$</h1><p>一个基本原则：不要无脑替换，智能指针首先应该用于指明所有权和资源管理。</p>
-<p>下面是在$\text{Effective Modern C++}$的建议：</p>
+<h1 id="智能指针和textraii"><a class="markdownIt-Anchor" href="#智能指针和textraii"></a> 智能指针和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>RAII</mtext></mrow><annotation encoding="application/x-tex">\text{RAII}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">RAII</span></span></span></span></span></h1>
+<p>一个基本原则：不要无脑替换，智能指针首先应该用于指明所有权和资源管理。</p>
+<p>下面是在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Effective Modern C++</mtext></mrow><annotation encoding="application/x-tex">\text{Effective Modern C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">Effective Modern C++</span></span></span></span></span>的建议：</p>
 <p>优先考虑<code>unique_ptr</code>，它与裸指针有着几乎一样的效率和占用空间。</p>
 <p>只不过它不允许共享，只有移动语义，写起来会有点碍事。看起来这一条和<code>Rust</code>里的内存管理也有点像。理论上讲，使用裸指针，<code>unique_ptr</code>配合<code>STL</code>已经能完成很多事情了，这一点可以参考<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/319277442">这个知乎回答</a>。</p>
-<p>核心就是，智能指针首先应该看成一种通过$\text{RAII}$实现资源管理的手段，而不是一种替代裸指针的手段。</p>
+<p>核心就是，智能指针首先应该看成一种通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>RAII</mtext></mrow><annotation encoding="application/x-tex">\text{RAII}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">RAII</span></span></span></span></span>实现资源管理的手段，而不是一种替代裸指针的手段。</p>
 <p>举个例子就是渲染器，渲染器里的大部分对象生命周期都是持续到渲染结束的，并且渲染器通常会有一个<code>Scene</code>对象。</p>
 <p>如果我们使用<code>Scene</code>管理资源，那么被管理的对象之间基本上是可以随便使用裸指针的，因为它们的生命周期都不可能比<code>Scene</code>还要长。</p>
 <p>于是在这种情况下没必要用<code>shared_ptr</code>（事实上也不能随便用，因为渲染器的对象之间存在大量的相互引用）。</p>
-<p>另外还有一点就是许多$\text{STL}$容器也是$\text{RAII}$的，如有可能也请尽量使用这些容器。无论如何，我们真的是在写$\text{Modern C++}$!</p>
+<p>另外还有一点就是许多<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>STL</mtext></mrow><annotation encoding="application/x-tex">\text{STL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">STL</span></span></span></span></span>容器也是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>RAII</mtext></mrow><annotation encoding="application/x-tex">\text{RAII}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">RAII</span></span></span></span></span>的，如有可能也请尽量使用这些容器。无论如何，我们真的是在写<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Modern C++</mtext></mrow><annotation encoding="application/x-tex">\text{Modern C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">Modern C++</span></span></span></span></span>!</p>
 
     </div>
 
@@ -316,6 +319,11 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
 
 
 

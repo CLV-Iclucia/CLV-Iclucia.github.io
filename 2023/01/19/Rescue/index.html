@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。 因为自己对Linux从来只是用，很少折腾，这一次修$\text{BUG}$花了很久。">
+    <meta name="description" content="问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。 因为自己对Linux从来只是用，很少折腾，这一次修BUG\text{BUG}BUG花了很久。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="离奇的修电脑经历">
 <meta property="og:url" content="http://example.com/2023/01/19/Rescue/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
-<meta property="og:description" content="问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。 因为自己对Linux从来只是用，很少折腾，这一次修$\text{BUG}$花了很久。">
+<meta property="og:description" content="问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。 因为自己对Linux从来只是用，很少折腾，这一次修BUG\text{BUG}BUG花了很久。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-01-19T05:53:06.000Z">
 <meta property="article:modified_time" content="2023-05-21T06:46:04.406Z">
@@ -51,7 +51,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -225,24 +225,23 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>问题出现在1月18日下午，因为自己操作不当，开机时喜闻乐见地卡在了磁盘检查之后，没有进入图形界面。</p>
-<p>因为自己对Linux从来只是用，很少折腾，这一次修$\text{BUG}$花了很久。</p>
+<p>因为自己对Linux从来只是用，很少折腾，这一次修<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>BUG</mtext></mrow><annotation encoding="application/x-tex">\text{BUG}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BUG</span></span></span></span></span>花了很久。</p>
 <span id="more"></span>
-
-<p>$\text{1. 更新显卡驱动}$</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 更新显卡驱动</mtext></mrow><annotation encoding="application/x-tex">\text{1. 更新显卡驱动}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">更新显卡驱动</span></span></span></span></span></p>
 <p>幸运的是可以使用<code>Ctrl</code>+<code>Alt</code>+<code>F2</code>进入一个tty界面，起码还是有点使用命令的余地。</p>
-<p>按照自己以往解决此问题的经验，更新一下显卡驱动一般就好了，懒得联网<del>其实是不怎么会</del>，直接手机连上，共享移动数据。</p>
-<p>然后<code>sudo pacman</code>更新了一堆$\text{nvidia}$的东西，重启，发现情况并没有变化。</p>
-<p>$\text{2. SDDM，寄!}$</p>
-<p>查了一下自己目前使用的显示管理器，是$\text{SDDM}$。查询服务状态，发现$\text{SDDM}$处于<code>inactive</code>状态，难怪图形界面没有正常启动。</p>
-<p>试着启动$\text{SDDM}$，发现启动失败了，于是翻了一下日志。日志显示的是在导入共享库<code>libssl.so</code>的时候出错，没有找到这个共享库。</p>
-<p>$\text{3. 补回缺失的共享库}$</p>
+<p>按照自己以往解决此问题的经验，更新一下显卡驱动一般就好了，懒得联网<s>其实是不怎么会</s>，直接手机连上，共享移动数据。</p>
+<p>然后<code>sudo pacman</code>更新了一堆<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>nvidia</mtext></mrow><annotation encoding="application/x-tex">\text{nvidia}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">nvidia</span></span></span></span></span>的东西，重启，发现情况并没有变化。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. SDDM，寄!</mtext></mrow><annotation encoding="application/x-tex">\text{2. SDDM，寄!}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">2. SDDM</span><span class="mord cjk_fallback">，寄</span><span class="mord">!</span></span></span></span></span></p>
+<p>查了一下自己目前使用的显示管理器，是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SDDM</mtext></mrow><annotation encoding="application/x-tex">\text{SDDM}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SDDM</span></span></span></span></span>。查询服务状态，发现<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SDDM</mtext></mrow><annotation encoding="application/x-tex">\text{SDDM}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SDDM</span></span></span></span></span>处于<code>inactive</code>状态，难怪图形界面没有正常启动。</p>
+<p>试着启动<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SDDM</mtext></mrow><annotation encoding="application/x-tex">\text{SDDM}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SDDM</span></span></span></span></span>，发现启动失败了，于是翻了一下日志。日志显示的是在导入共享库<code>libssl.so</code>的时候出错，没有找到这个共享库。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. 补回缺失的共享库</mtext></mrow><annotation encoding="application/x-tex">\text{3. 补回缺失的共享库}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">3. </span><span class="mord cjk_fallback">补回缺失的共享库</span></span></span></span></span></p>
 <p>第一反应是用<code>sudo pacman -S</code>来下载安装，然后发现<code>sudo</code>和<code>pacman</code>也用不了了，原因是缺失了<code>libcrypto.so.1.1</code>。问题很大，缺了这两个库，很多程序都用不了了，包括<code>git</code>。</p>
 <p>翻了一下<code>/usr</code>目录，确实没有找到相应的文件，要想办法补回来了。</p>
-<p>$\text{4. OpenSSL}$</p>
-<p>查了一下，有人提到$\text{OpenSSL}$包含这两个库，可以下载编译$\text{OpenSSL}$，然后把我需要的编译生成的对象复制到<code>usr/lib</code>下。</p>
-<p>于是通过<code>wget</code>命令从官网上获取了$\text{OpenSSL-1.1.1}$，编译完成以后找到了需要的文件，将其复制回<code>/usr/lib</code>。测试之前不可用的<code>sudo</code>或者<code>pacman</code>等程序，都能正常使用了。</p>
-<p>$\text{5. 重启SDDM}$</p>
-<p>这时启动$\text{SDDM}$，成功进入了图形界面。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>4. OpenSSL</mtext></mrow><annotation encoding="application/x-tex">\text{4. OpenSSL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">4. OpenSSL</span></span></span></span></span></p>
+<p>查了一下，有人提到<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>OpenSSL</mtext></mrow><annotation encoding="application/x-tex">\text{OpenSSL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">OpenSSL</span></span></span></span></span>包含这两个库，可以下载编译<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>OpenSSL</mtext></mrow><annotation encoding="application/x-tex">\text{OpenSSL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">OpenSSL</span></span></span></span></span>，然后把我需要的编译生成的对象复制到<code>usr/lib</code>下。</p>
+<p>于是通过<code>wget</code>命令从官网上获取了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>OpenSSL-1.1.1</mtext></mrow><annotation encoding="application/x-tex">\text{OpenSSL-1.1.1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">OpenSSL-1.1.1</span></span></span></span></span>，编译完成以后找到了需要的文件，将其复制回<code>/usr/lib</code>。测试之前不可用的<code>sudo</code>或者<code>pacman</code>等程序，都能正常使用了。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>5. 重启SDDM</mtext></mrow><annotation encoding="application/x-tex">\text{5. 重启SDDM}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">5. </span><span class="mord cjk_fallback">重启</span><span class="mord">SDDM</span></span></span></span></span></p>
+<p>这时启动<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SDDM</mtext></mrow><annotation encoding="application/x-tex">\text{SDDM}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SDDM</span></span></span></span></span>，成功进入了图形界面。</p>
 <!-- flag of hidden posts -->
     </div>
 
@@ -300,6 +299,11 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
 
 
 

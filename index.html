@@ -46,7 +46,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -160,6 +160,74 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/18/Why-subdiv-works/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | "The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/02/18/Why-subdiv-works/" class="post-title-link" itemprop="url">Why-subdiv-works</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-02-18 07:30:47" itemprop="dateCreated datePublished" datetime="2024-02-18T07:30:47+08:00">2024-02-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -295,7 +363,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>当时啊，直到DDL过了我都没复现出来，最后一听报告才发现全班就我一个傻子在复现这个……</p>
+          <p>当时啊，直到DDL过了我都没复现出来，最后一听报告才发现全班就我一个傻子在复现这个…</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/18/UCAS-Network-Lab-8-ip-lookup/#more" rel="contents">
@@ -378,7 +446,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="text-1-分析参考"><a href="#text-1-分析参考" class="headerlink" title="$\text{1. 分析参考}$"></a>$\text{1. 分析参考}$</h2><p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
+          <h2 id="text1-分析参考"><a class="markdownIt-Anchor" href="#text1-分析参考"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 分析参考</mtext></mrow><annotation encoding="application/x-tex">\text{1. 分析参考}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">分析参考</span></span></span></span></span></h2>
+<p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
 <p>首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。</p>
 <p>然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地址就是这个地址，同时端口号也是40580。nat收到这个包之后，将其ip地址翻译为h1的ip地址，端口号翻译为12345，然后发给h1。</p>
 <p>接下来是dnat。分析出来的过程为：h3发出wget请求，使用的是公网的ip和端口号，经过nat，发送的目标则也使用公网ip和公网的端口号8001，nat将该ip以及端口号翻译为相应的私网ip(h2)以及端口号(8000)，从而发送给h2的相应端口。</p>
@@ -604,7 +673,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-02-18 04:50:27" itemprop="dateModified" datetime="2024-02-18T04:50:27+08:00">2024-02-18</time>
+      <time title="Modified: 2024-02-18 07:24:32" itemprop="dateModified" datetime="2024-02-18T07:24:32+08:00">2024-02-18</time>
     </span>
 
   
@@ -700,7 +769,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>半年前退坑的我大概也想不到终于有一天我会遗忘这些基础技艺并且会重返$\text{Rendering}$</p>
+          <p>半年前退坑的我大概也想不到终于有一天我会遗忘这些基础技艺并且会重返<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Rendering</mtext></mrow><annotation encoding="application/x-tex">\text{Rendering}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Rendering</span></span></span></span></span></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/10/31/VPT-Recap/#more" rel="contents">
@@ -892,90 +961,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/27/UCAS-Network-Lab-2-Socket/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/27/UCAS-Network-Lab-2-Socket/" class="post-title-link" itemprop="url">UCAS-Computer Network-Lab-2: Sockets and HTTP Servers</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-09-27 15:11:09" itemprop="dateCreated datePublished" datetime="2023-09-27T15:11:09+08:00">2023-09-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-09-28 09:59:05" itemprop="dateModified" datetime="2023-09-28T09:59:05+08:00">2023-09-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>恭喜计网$\text{Lab}-2$成为我的博客里第一篇本校实验</p>
-<p>提醒：本博客含有$\text{AI}$辅助创作内容</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/09/27/UCAS-Network-Lab-2-Socket/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1014,6 +999,11 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
 
 
 
