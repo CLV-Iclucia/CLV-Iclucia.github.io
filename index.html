@@ -295,7 +295,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>当时啊，直到DDL过了我都没复现出来，最后一听报告才发现全班就我一个傻子在复现这个…</p>
+          <p>当时啊，直到DDL过了我都没复现出来，最后一听报告才发现全班就我一个傻子在复现这个……</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/18/UCAS-Network-Lab-8-ip-lookup/#more" rel="contents">
@@ -378,8 +378,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="text-1-分析参考"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 分析参考</mtext></mrow><annotation encoding="application/x-tex">\text{1. 分析参考}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">分析参考</span></span></span></span></span></h2>
-<p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
+          <h2 id="text-1-分析参考"><a href="#text-1-分析参考" class="headerlink" title="$\text{1. 分析参考}$"></a>$\text{1. 分析参考}$</h2><p>首先运行参考标程并且抓包，监听nat的两个端口来分析其工作原理。</p>
 <p>首先是snat。分析出来的过程为：h1发出wget请求，其端口号为12345(italk)，经过nat翻译之后，发出去时ip地址被翻译为公网地址，同时端口被翻译为一个分配的端口号40580。</p>
 <p>然后公网的h3认为这就是h1的ip地址以及端口，按照原样访问之，所以返回的包的目的地址就是这个地址，同时端口号也是40580。nat收到这个包之后，将其ip地址翻译为h1的ip地址，端口号翻译为12345，然后发给h1。</p>
 <p>接下来是dnat。分析出来的过程为：h3发出wget请求，使用的是公网的ip和端口号，经过nat，发送的目标则也使用公网ip和公网的端口号8001，nat将该ip以及端口号翻译为相应的私网ip(h2)以及端口号(8000)，从而发送给h2的相应端口。</p>
@@ -605,7 +604,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-02-18 04:28:07" itemprop="dateModified" datetime="2024-02-18T04:28:07+08:00">2024-02-18</time>
+      <time title="Modified: 2024-02-18 04:50:27" itemprop="dateModified" datetime="2024-02-18T04:50:27+08:00">2024-02-18</time>
     </span>
 
   
@@ -701,7 +700,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>半年前退坑的我大概也想不到终于有一天我会遗忘这些基础技艺并且会重返<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Rendering</mtext></mrow><annotation encoding="application/x-tex">\text{Rendering}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Rendering</span></span></span></span></span></p>
+          <p>半年前退坑的我大概也想不到终于有一天我会遗忘这些基础技艺并且会重返$\text{Rendering}$</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/10/31/VPT-Recap/#more" rel="contents">
@@ -950,8 +949,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>恭喜计网<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab</mtext><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\text{Lab}-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord text"><span class="mord">Lab</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>成为我的博客里第一篇本校实验</p>
-<p>提醒：本博客含有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>AI</mtext></mrow><annotation encoding="application/x-tex">\text{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">AI</span></span></span></span></span>辅助创作内容</p>
+          <p>恭喜计网$\text{Lab}-2$成为我的博客里第一篇本校实验</p>
+<p>提醒：本博客含有$\text{AI}$辅助创作内容</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/09/27/UCAS-Network-Lab-2-Socket/#more" rel="contents">
