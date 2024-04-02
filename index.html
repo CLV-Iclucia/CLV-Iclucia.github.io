@@ -129,7 +129,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -169,7 +169,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/18/Why-subdiv-works/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/03/CS-184-Final-Project-Proposal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -187,7 +187,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/02/18/Why-subdiv-works/" class="post-title-link" itemprop="url">Why-subdiv-works</a>
+          <a href="/2024/04/03/CS-184-Final-Project-Proposal/" class="post-title-link" itemprop="url">CS-184 Final Project Proposal-Fluid Animation on GPU</a>
         </h2>
 
         <div class="post-meta-container">
@@ -197,8 +197,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2024-02-18 07:30:47" itemprop="dateCreated datePublished" datetime="2024-02-18T07:30:47+08:00">2024-02-18</time>
+      <time title="Created: 2024-04-03 04:11:42 / Modified: 05:19:52" itemprop="dateCreated datePublished" datetime="2024-04-03T04:11:42+08:00">2024-04-03</time>
     </span>
 
   
@@ -211,7 +212,81 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <p>Team Members: Xuanye Chen, Zhenzhe Li, Ruijie Jian, Huasen Xi</p>
+<h1 id="text1-summary"><a class="markdownIt-Anchor" href="#text1-summary"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. Summary</mtext></mrow><annotation encoding="application/x-tex">\text{1. Summary}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">1. Summary</span></span></span></span></span></h1>
+<p>In this project, we aim to implement an extendable and efficient fluid simulation system on GPU. We will also implement a high-performance wavefront path tracing renderer to render the fluid data created by the simulation system.</p>
+<h1 id="text2-problem-description"><a class="markdownIt-Anchor" href="#text2-problem-description"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. Problem Description</mtext></mrow><annotation encoding="application/x-tex">\text{2. Problem Description}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">2. Problem Description</span></span></span></span></span></h1>
+<p>Fluid simulation is a fundamental and highly mature field in computer graphics. However, physics based fluid simulation requires expensive computation on particles and grids to produce realistic simulation result. Since the fluid simulation is highly parallelizable, it is a perfect candidate for GPU acceleration. However, achieving high performance on GPU requires careful design and optimization of the simulation algorithm, and once it is done, we can create fluid animation much faster than CPU-based simulation.</p>
+<p>Path tracing is also a fundamental rendering technique in computer graphics. Just like fluid simulation, it is parallelizable and can be accelerated by GPU. But to utilize the architecture of GPU, we need a method called “Wavefront Path Tracing” to reduce thread divergence. Once this is done, we can render the fluid data created by the simulation system much faster than CPU-based rendering. And to render the volume data produced by smoke simulation, it is possible that we will need to implement a volumetric path tracing algorithm, which is far more complex than the surface path tracing algorithm.</p>
+<p>There are several challenges in this project. To better preserve the volume of incompressible fluid and reduce numerical dissipation, we will need to implement a good advection solver. To solve the projection poisson equation efficiently on GPU, we need a parallelizable preconditioner for the conjugate gradient method. Another difficulty is to implement a wavefront path tracing renderer that can handle the fluid data and smoke data. The most challenging part, however, lies in the performance optimization of both systems. Transplanting a fluid simulation algorithm from CPU to GPU and make it run is not hard, but to make it run fast is a different story. The same goes for the path tracing renderer.</p>
+<p>We will use PIC/FLIP method to solve advection, and we will use multigrid method to precondition the conjugate gradient method. As for voumetric wavefront path tracing, we will use the null-scattering method to render heterogeneous media.</p>
+<h1 id="text3-goals-and-deliverables"><a class="markdownIt-Anchor" href="#text3-goals-and-deliverables"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. Goals and Deliverables</mtext></mrow><annotation encoding="application/x-tex">\text{3. Goals and Deliverables}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">3. Goals and Deliverables</span></span></span></span></span></h1>
+<p>Our final project include 2 sub-projects: a fluid simulation system and a wavefront path tracing renderer. And we will use them to produce a video which shows the fluid surface and cloud rendered by the path tracer. All of the computation works are done on GPU and we will implement them using modern C++ and CUDA.</p>
+<p>The final projects don’t need to be completely real-time, but we will seek to improve the performance as much as possible. One member of our team has already implemented his own fluid simulation system and volumetric path tracer on CPU, and we will use them as a reference to evaluate the performance of our GPU-based system.</p>
+<p>As is said before, we plan to deliver to systems that have the basic functionalities of fluid simulation and path tracing. This is not that hard, but it is possible that we might not be able to implement multigrid preconditioner. It is also possible that porting the volumetric path tracing to wavefront path tracing framework is hard and we cannot parallelize it efficiently. But we still hope that the fluid simulation can run with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><msup><mn>4</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">64^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span> resolution in real-time if we don’t count rendering, and the path tracing renderer can render the scene much faster than CPU-based rendering while guaranteeing the physical correctness of the rendering result. If things go smoothly, we might be able to finish both systems and have sufficient time to do performance engineering and analysis.</p>
+<h1 id="text4-schedule"><a class="markdownIt-Anchor" href="#text4-schedule"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>4. Schedule</mtext></mrow><annotation encoding="application/x-tex">\text{4. Schedule}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">4. Schedule</span></span></span></span></span></h1>
+<ul>
+<li>Week 1: Finish basic wavefront path tracing renderer based on HW-3. Porting fluid simulation to GPU. Implementing prototype of the multigrid preconditioner.</li>
+</ul>
+<p>At this stage, Xuanye Chen will account for the wavefront path tracing renderer on his own, and he will also help Zhenzhe Li to port the fluid simulation to GPU. Huasen Xi will be responsible for the prototype of the multigrid preconditioner, and Ruijie Jian will test the correctness of his prototype.</p>
+<ul>
+<li>
+<p>Week 2: Xuanye Chen will start on the volumetric path tracing on GPU. Zhenzhe Li and Xuanye Chen should  finish the fluid simulation framework on GPU. Huasen Xi and Ruijie Jian should finish the multigrid preconditioner prototype.</p>
+</li>
+<li>
+<p>Week 3: Xuanye Chen should finish the volumetric path tracing on GPU. Zhenzhe Li and Xuanye Chen should finish porting the multigrid preconditioner to the fluid simulation system. Ruijie Jian should test the correctness of the whole system.</p>
+</li>
+<li>
+<p>Week 4: Performance optimization and video production. Xuanye Chen and Zhenzhe Li will analyze the performance of the fluid simulation system and renderer. Huasen Xi and Ruijie Jian will run the CPU-based fluid simulation and path tracing on single scene for comparison. The four of us will work together to produce the final fluid animation.</p>
+</li>
+</ul>
+<h1 id="text5-resources"><a class="markdownIt-Anchor" href="#text5-resources"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>5. Resources</mtext></mrow><annotation encoding="application/x-tex">\text{5. Resources}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">5. Resources</span></span></span></span></span></h1>
+<p>Rendering:</p>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://cseweb.ucsd.edu/~tzli/cse272/wi2023/homework2.pdf">UCSD-CSE272-Hw2-Volumetric Path Tracing</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://clv-iclucia.github.io/2022/09/13/CSE-272-Hw/">Xuanye Chen’s notes on volumetric path tracing</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://research.nvidia.com/sites/default/files/pubs/2013-07_Megakernels-Considered-Harmful/laine2013hpg_paper.pdf">Megakernels Considered Harmful: Wavefront Path Tracing on GPUs</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://cs.dartmouth.edu/~wjarosz/publications/miller19null.html">A Null-Scattering Path Integral Formulation for Light Transport</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/contents">Physically Based Rendering: From Theory to Implementation, Third Edition</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://pbr-book.org/4ed/contents">Physically Based Rendering: From Theory to Implementation, Fourth Edition</a></p>
+</li>
+</ul>
+<p>Fluid Simulation:</p>
+<ul>
+<li>
+<p>Fluid Simulation for Computer Graphics, Robert Bridson</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://fluidenginedevelopment.org/">Fluid Engine Development</a></p>
+</li>
+<li>
+<p>Course: UofT-CSC417-Physically Based Animation, by David Levin</p>
+</li>
+<li>
+<p>Course: CMU-15-769: Physically-based Animation of Solids and Fluids, by Minchen Li</p>
+</li>
+</ul>
+<p>Others:</p>
+<ul>
+<li>
+<p>A Multigrid Tutorial, Second Edition, by William L. Briggs, Van Emden Henson, and Steve F. McCormick</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA Programming Guide</a></p>
+</li>
+</ul>
+
       
     </div>
 
