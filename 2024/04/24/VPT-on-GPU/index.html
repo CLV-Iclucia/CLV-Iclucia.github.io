@@ -19,28 +19,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="折返吧 这是挖的一个坑，还没填呢。前方的区域以后再来探索吧。  Preview:\text{Preview:}Preview: 导体和绝缘体的菲涅尔项有着完全不同的形式，这一直是个大问题。光学老师跟我说这是因为能带结构不一样，但是对我来说这TM跟没说一样 在实时渲染中，对于菲涅尔项使用Schlick\text{Schlick}Schlick近似计算都能取得相当不错的效率和效果，即使是性质比较诡异">
+    <meta name="description" content="我每次都以为自己以后再也不会写渲染了，实际上渲染总是如影随形">
 <meta property="og:type" content="article">
-<meta property="og:title" content="菲涅尔方程是坏文明">
-<meta property="og:url" content="http://example.com/2022/11/11/FrenelEQ%20is%20Bad/index.html">
+<meta property="og:title" content="Volumetric Path Tracing on GPU">
+<meta property="og:url" content="http://example.com/2024/04/24/VPT-on-GPU/index.html">
 <meta property="og:site_name" content="&quot;The World&quot; of CLV">
-<meta property="og:description" content="折返吧 这是挖的一个坑，还没填呢。前方的区域以后再来探索吧。  Preview:\text{Preview:}Preview: 导体和绝缘体的菲涅尔项有着完全不同的形式，这一直是个大问题。光学老师跟我说这是因为能带结构不一样，但是对我来说这TM跟没说一样 在实时渲染中，对于菲涅尔项使用Schlick\text{Schlick}Schlick近似计算都能取得相当不错的效率和效果，即使是性质比较诡异">
+<meta property="og:description" content="我每次都以为自己以后再也不会写渲染了，实际上渲染总是如影随形">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-11-11T13:26:53.000Z">
-<meta property="article:modified_time" content="2022-11-17T07:44:51.322Z">
+<meta property="article:published_time" content="2024-04-23T21:17:06.000Z">
+<meta property="article:modified_time" content="2024-04-23T21:43:21.153Z">
 <meta property="article:author" content="CLV">
 <meta property="article:tag" content="Rendering">
+<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="High Performance Computing">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2022/11/11/FrenelEQ%20is%20Bad/">
+<link rel="canonical" href="http://example.com/2024/04/24/VPT-on-GPU/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/11/11/FrenelEQ%20is%20Bad/","path":"2022/11/11/FrenelEQ is Bad/","title":"菲涅尔方程是坏文明"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2024/04/24/VPT-on-GPU/","path":"2024/04/24/VPT-on-GPU/","title":"Volumetric Path Tracing on GPU"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>菲涅尔方程是坏文明 | "The World" of CLV</title>
+<title>Volumetric Path Tracing on GPU | "The World" of CLV</title>
   
 
 
@@ -116,7 +118,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%98%E8%BF%94%E5%90%A7"><span class="nav-number">1.</span> <span class="nav-text"> 折返吧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#textpreview"><span class="nav-number">2.</span> <span class="nav-text"> Preview:\text{Preview:}Preview:</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text0-volumetric-path-tracing"><span class="nav-number">1.</span> <span class="nav-text"> \text{0. Volumetric Path Tracing}</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text1-wavefront-path-tracing"><span class="nav-number">2.</span> <span class="nav-text"> \text{1. Wavefront Path Tracing}</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text2-port-vpt-to-wpt"><span class="nav-number">3.</span> <span class="nav-text"> 2. Port VPT to WPT\text{2. Port VPT to WPT}2. Port VPT to WPT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text3-some-optimizations-and-problems"><span class="nav-number">4.</span> <span class="nav-text"> 3. Some Optimizations and Problems\text{3. Some Optimizations and Problems}3. Some Optimizations and Problems</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,7 +178,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/FrenelEQ%20is%20Bad/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/24/VPT-on-GPU/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -189,12 +191,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="菲涅尔方程是坏文明 | "The World" of CLV">
+      <meta itemprop="name" content="Volumetric Path Tracing on GPU | "The World" of CLV">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          菲涅尔方程是坏文明
+          Volumetric Path Tracing on GPU
         </h1>
 
         <div class="post-meta-container">
@@ -204,15 +206,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2022-11-11 21:26:53" itemprop="dateCreated datePublished" datetime="2022-11-11T21:26:53+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-11-17 15:44:51" itemprop="dateModified" datetime="2022-11-17T15:44:51+08:00">2022-11-17</time>
+      <time title="Created: 2024-04-24 05:17:06 / Modified: 05:43:21" itemprop="dateCreated datePublished" datetime="2024-04-24T05:17:06+08:00">2024-04-24</time>
     </span>
 
   
@@ -225,13 +221,35 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="折返吧"><a class="markdownIt-Anchor" href="#折返吧"></a> 折返吧</h1>
-<p>这是挖的一个坑，还没填呢。前方的区域以后再来探索吧。</p>
-<h1 id="textpreview"><a class="markdownIt-Anchor" href="#textpreview"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Preview:</mtext></mrow><annotation encoding="application/x-tex">\text{Preview:}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Preview:</span></span></span></span></span></h1>
-<p>导体和绝缘体的菲涅尔项有着完全不同的形式，这一直是个大问题。<s>光学老师跟我说这是因为能带结构不一样，但是对我来说这TM跟没说一样</s></p>
-<p>在实时渲染中，对于菲涅尔项使用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Schlick</mtext></mrow><annotation encoding="application/x-tex">\text{Schlick}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Schlick</span></span></span></span></span>近似计算都能取得相当不错的效率和效果，即使是性质比较诡异的金属也可以使用一些<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>trick</mtext></mrow><annotation encoding="application/x-tex">\text{trick}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">trick</span></span></span></span></span>来同样地使用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Schlick</mtext></mrow><annotation encoding="application/x-tex">\text{Schlick}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Schlick</span></span></span></span></span>近似。而在离线渲染中，更多是出于“物理正确性”的考虑，我们可能会希望使用完整的菲涅尔公式，对于绝缘体这个做法的确是正确的。</p>
-<p>对于导体我们可能也会类似地取其在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>RGB</mtext></mrow><annotation encoding="application/x-tex">\text{RGB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">RGB</span></span></span></span></span>三色光下对应的复折射率参数套进导体的菲涅尔方程进行计算。但是这么做是错误的。下面这篇报告指出，对<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>RGB</mtext></mrow><annotation encoding="application/x-tex">\text{RGB}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">RGB</span></span></span></span></span>三色光使用菲涅尔公式本质上仍然是另一种近似计算，而且效果甚至不如<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Schlick</mtext></mrow><annotation encoding="application/x-tex">\text{Schlick}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Schlick</span></span></span></span></span>近似法。</p>
+        <p>我每次都以为自己以后再也不会写渲染了，实际上渲染总是如影随形</p>
 <span id="more"></span>
+<h1 id="text0-volumetric-path-tracing"><a class="markdownIt-Anchor" href="#text0-volumetric-path-tracing"></a> \text{0. Volumetric Path Tracing}</h1>
+<p>这个我想我也不用多说了，请出门左转去年的<a target="_blank" rel="noopener" href="https://clv-iclucia.github.io/2022/09/13/CSE-272-Hw/">CSE-272 notes</a></p>
+<h1 id="text1-wavefront-path-tracing"><a class="markdownIt-Anchor" href="#text1-wavefront-path-tracing"></a> \text{1. Wavefront Path Tracing}</h1>
+<p>了解一点儿CUDA编程的都知道，CUDA是不支持虚函数的。实际上，就算我们想办法逼它支持，无论采用什么方案，由于执行的代码是不一样的，总会<br>
+不可避免地存在线程分歧。</p>
+<p>这就是为什么<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Wavefront Path Tracing</mtext></mrow><annotation encoding="application/x-tex">\text{Wavefront Path Tracing}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Wavefront Path Tracing</span></span></span></span></span>(以下简称WPT)的论文标题叫做&quot;Megakernels Considered Harmful&quot;。如果我们用一个大核函数把整个着色都做了，由于材质计算的高度分歧，会严重损害性能。</p>
+<p>所以WPT的想法很简单：把不同的材质计算分到不同的小核函数里。这样，每个核函数只负责一个材质的计算，不会出现分歧。类似的思想同样可以用于其他可能存在多态的地方。</p>
+<p>在原始论文中，分为3个阶段：</p>
+<ol>
+<li>
+<p>Logic阶段，这一部分是一个大核函数，负责结算路径贡献，NEE采样，以及根据路径打到的材质类型分发到下一阶段小核函数。</p>
+</li>
+<li>
+<p>Material阶段，这一部分是一堆不同的小核函数，负责计算散射及采样，同时分发到下一阶段小核函数。</p>
+</li>
+<li>
+<p>Extend阶段，这一阶段是两个小核函数，一个负责计算所有的路径求交，一个负责计算NEE路径（也就是shadow ray）求交。</p>
+</li>
+</ol>
+<h1 id="text2-port-vpt-to-wpt"><a class="markdownIt-Anchor" href="#text2-port-vpt-to-wpt"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. Port VPT to WPT</mtext></mrow><annotation encoding="application/x-tex">\text{2. Port VPT to WPT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">2. Port VPT to WPT</span></span></span></span></span></h1>
+<p>我们如果仔细思考VPT的逻辑，会发现它可以用于这个框架中。第二阶段刚好就可以用来计算相函数的散射，因为本质上说相函数散射和BSDF其实可以在VPT框架下统一。<br>
+而第三阶段我们可以把原本的求交变成tracking。因为tracking是不会改变光线方向的。</p>
+<p>这样，我们就可以把VPT的逻辑移植到WPT框架下，从而实现VPT on GPU。</p>
+<h1 id="text3-some-optimizations-and-problems"><a class="markdownIt-Anchor" href="#text3-some-optimizations-and-problems"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. Some Optimizations and Problems</mtext></mrow><annotation encoding="application/x-tex">\text{3. Some Optimizations and Problems}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">3. Some Optimizations and Problems</span></span></span></span></span></h1>
+<p>但是，这样就会导致整个Extend阶段的分极其严重（均匀介质的tracking要一个while，而使用null scattering方法的tracking还要再嵌套一个while），计算非常贵。</p>
+<p>对此，很自然地想到可以所有进入Extend阶段的光线按照某种编码（这个方法很多，比如组合了起点和方向的莫顿码编码）进行排序，这样排到一起的光线空间上也接近，求交情况也接近，可以减少分歧。</p>
+<p>事实证明，这种方法对于普通的求交很有效，但是在考虑到tracking的时候，由于tracking本身涉及采样，就会带来分歧，这也是个很大的问题。</p>
 
     </div>
 
@@ -242,20 +260,19 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Rendering/" rel="tag"># Rendering</a>
+              <a href="/tags/GPU/" rel="tag"># GPU</a>
+              <a href="/tags/High-Performance-Computing/" rel="tag"># High Performance Computing</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/11/05/Hello-My-New-Blog/" rel="prev" title="Hello, "World"!">
-                  <i class="fa fa-chevron-left"></i> Hello, "World"!
+                <a href="/2024/04/03/CS-184-Final-Project-Proposal/" rel="prev" title="CS-184 Final Project Proposal-Fluid Animation on GPU">
+                  <i class="fa fa-chevron-left"></i> CS-184 Final Project Proposal-Fluid Animation on GPU
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/11/12/FAQ%20in%20Sampling/" rel="next" title="光线采样中的FAQ">
-                  光线采样中的FAQ <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
