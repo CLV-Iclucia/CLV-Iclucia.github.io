@@ -123,13 +123,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -169,7 +169,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/18/developing-log/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/LuisaCompute-Analysis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -187,7 +187,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/06/18/developing-log/" class="post-title-link" itemprop="url">开发日志</a>
+          <a href="/2024/09/19/LuisaCompute-Analysis/" class="post-title-link" itemprop="url">OOP-Hw:LuisaCompute Code Analysis</a>
         </h2>
 
         <div class="post-meta-container">
@@ -199,7 +199,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-06-18 22:15:01 / Modified: 22:21:28" itemprop="dateCreated datePublished" datetime="2024-06-18T22:15:01+08:00">2024-06-18</time>
+      <time title="Created: 2024-09-19 00:48:30 / Modified: 10:57:57" itemprop="dateCreated datePublished" datetime="2024-09-19T00:48:30+08:00">2024-09-19</time>
     </span>
 
   
@@ -212,13 +212,92 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="2024618"><a class="markdownIt-Anchor" href="#2024618"></a> 2024.6.18</h1>
-<p>这几日处于懒得写数学只想搓低级工程的状态。</p>
-<p>给<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>SimCraft</mtext></mrow><annotation encoding="application/x-tex">\text{SimCraft}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">SimCraft</span></span></span></span></span>做了套新的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>OpenGL</mtext></mrow><annotation encoding="application/x-tex">\text{OpenGL}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">OpenGL</span></span></span></span></span>封装，现在作为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GUI</mtext></mrow><annotation encoding="application/x-tex">\text{GUI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">GUI</span></span></span></span></span>小工具包个人认为还好用。</p>
-<p>重写了相机类，分离了相机的参数和控制。设计了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CRTP</mtext></mrow><annotation encoding="application/x-tex">\text{CRTP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CRTP</span></span></span></span></span>的相机控制器<code>CameraController</code>类。</p>
-<p>今天发现<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>glfw</mtext></mrow><annotation encoding="application/x-tex">\text{glfw}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">glfw</span></span></span></span></span>可以通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>glfwSetWindowUserPointer</mtext></mrow><annotation encoding="application/x-tex">\text{glfwSetWindowUserPointer}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">glfwSetWindowUserPointer</span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>glfwGetWindowUserPointer</mtext></mrow><annotation encoding="application/x-tex">\text{glfwGetWindowUserPointer}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">glfwGetWindowUserPointer</span></span></span></span></span>来绑定任意的指针，这样就可以在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>glfw</mtext></mrow><annotation encoding="application/x-tex">\text{glfw}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">glfw</span></span></span></span></span>的回调函数中访问到自己的类了。考虑到这两个函数不是类型安全的，配合<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CRTP</mtext></mrow><annotation encoding="application/x-tex">\text{CRTP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CRTP</span></span></span></span></span>可以为模板基类定义静态函数，将指针进行<code>static_cast</code>，这样的静态函数就可以直接被子类实例化为对应类型的函数，从而能直接返回子类类型的指针。在回调函数中就无需担忧类型安全。</p>
-<p>问题是这样引入了模板，自然就引入了巨大的头文件，不知道怎么解决。</p>
+          <p>这是本学期按面向对象编程课程的大作业“代码分析”报告。第一次，直面奇迹工程吧。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/19/LuisaCompute-Analysis/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/ipc-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | "The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/09/19/ipc-tips/" class="post-title-link" itemprop="url">增量势能接触法(IPC)有限元模拟实现杂谈</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-09-19 00:31:33 / Modified: 11:37:00" itemprop="dateCreated datePublished" datetime="2024-09-19T00:31:33+08:00">2024-09-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>曾经心中的大山终于被撼动了一角，那些遥远的光芒现在仿佛触手可及。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/19/ipc-tips/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -926,89 +1005,6 @@ large grids</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/12/28/UCAS-Network-Lab-6-router/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/16/UCAS-Network-Lab-10~12-tcp-stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLV">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content=""The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | "The World" of CLV">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/16/UCAS-Network-Lab-10~12-tcp-stack/" class="post-title-link" itemprop="url">UCAS-Network-Lab-10~12-TCP Stack</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-12-16 18:55:36" itemprop="dateCreated datePublished" datetime="2023-12-16T18:55:36+08:00">2023-12-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-02-18 07:24:32" itemprop="dateModified" datetime="2024-02-18T07:24:32+08:00">2024-02-18</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>重头戏</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/16/UCAS-Network-Lab-10~12-tcp-stack/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
