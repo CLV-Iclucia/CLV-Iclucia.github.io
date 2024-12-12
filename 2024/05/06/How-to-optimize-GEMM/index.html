@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一个小小的复健练习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to optimize GEMM">
+<meta property="og:url" content="http://example.com/2024/05/06/How-to-optimize-GEMM/index.html">
+<meta property="og:site_name" content="&quot;The World&quot; of CLV">
+<meta property="og:description" content="一个小小的复健练习。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-06T00:29:54.000Z">
+<meta property="article:modified_time" content="2024-05-20T01:39:51.193Z">
+<meta property="article:author" content="CLV">
+<meta property="article:tag" content="High Performance Computing">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2024/05/06/How-to-optimize-GEMM/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2024/05/06/How-to-optimize-GEMM/","path":"2024/05/06/How-to-optimize-GEMM/","title":"How to optimize GEMM"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to optimize GEMM | "The World" of CLV</title><meta name="robots" content="noindex">
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">"The World" of CLV</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="comment fa-fw"></i>guestbook</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text1-%E5%88%9D%E5%A7%8B%E7%89%88%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text"> 1. 初始版本\text{1. 初始版本}1. 初始版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text2-blocking"><span class="nav-number">2.</span> <span class="nav-text"> 2. Blocking\text{2. Blocking}2. Blocking</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLV</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/CreeperLordVader-Iclucia-Ashina" class="github-corner" title="Fork me on GitHub!" aria-label="Fork me on GitHub!" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/06/How-to-optimize-GEMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to optimize GEMM | "The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to optimize GEMM
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-06 08:29:54" itemprop="dateCreated datePublished" datetime="2024-05-06T08:29:54+08:00">2024-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-05-20 09:39:51" itemprop="dateModified" datetime="2024-05-20T09:39:51+08:00">2024-05-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>一个小小的复健练习。</p>
+<span id="more"></span>
+<p>之所以突然开始玩这个，是最近有点儿代码ED，想找些正反馈即时且见效快的项目复健一下。听了学姐的建议来练习一下GEMM优化。<br>
+刚好有很成熟的项目可以做。在github上下载<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>blislab</mtext></mrow><annotation encoding="application/x-tex">\text{blislab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">blislab</span></span></span></span></span>然后按照里面的教程开始做就行，这个框架专门为了优化GEMM教学而设计，上手就可以开始直接练习核心代码。<br>
+默认关闭所有编译优化，来让我们好好搞清楚每一步的优化是怎么实现的。</p>
+<h1 id="text1-初始版本"><a class="markdownIt-Anchor" href="#text1-初始版本"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 初始版本</mtext></mrow><annotation encoding="application/x-tex">\text{1. 初始版本}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">初始版本</span></span></span></span></span></h1>
+<p>矩阵默认列主序（我真是服了这帮子写Fortran的老登），所以循环顺序按照jki是缓存最友好的。然后我们可以用指针简单优化一下并且内层循环4重展开。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">double</span> *cp, *bp, *ap;</span><br><span class="line">  <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">    bp = &amp;B[j * ldb];</span><br><span class="line">    <span class="keyword">for</span> (p = <span class="number">0</span>; p &lt; k; p++) &#123;</span><br><span class="line">      cp = &amp;C[j * ldc];</span><br><span class="line">      ap = &amp;A[p * lda];</span><br><span class="line">      <span class="keyword">register</span> <span class="type">double</span> bp0 = *bp;</span><br><span class="line">      <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i += <span class="number">4</span>) &#123;</span><br><span class="line">        (*cp) += (*ap) * (*bp); <span class="comment">//Each operand is a MACRO defined in bl_dgemm() function.</span></span><br><span class="line">        (*(cp + <span class="number">1</span>)) += (*(ap + <span class="number">1</span>)) * bp0;</span><br><span class="line">        (*(cp + <span class="number">2</span>)) += (*(ap + <span class="number">2</span>)) * bp0;</span><br><span class="line">        (*(cp + <span class="number">3</span>)) += (*(ap + <span class="number">3</span>)) * bp0;</span><br><span class="line">        cp += <span class="number">4</span>;</span><br><span class="line">        ap += <span class="number">4</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      bp++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+<p>循环展开的原理是充分利用现代CPU的流水线。</p>
+<p>这里我们还用了一下C++中废弃的register关键字，虽然理论上讲这个关键字已经用处不大了，但是据我实际测试，加上这个关键字还是有一定的优化效果</p>
+<p>作为参考，blis的BLAS实现GFLOPS是大概60，而我们这个实现GFLOPS是大概2.35到2.45左右，原始的naive版本是1.2左右，虽然有了一倍的提升，但是还是远远不够。</p>
+<h1 id="text2-blocking"><a class="markdownIt-Anchor" href="#text2-blocking"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. Blocking</mtext></mrow><annotation encoding="application/x-tex">\text{2. Blocking}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">2. Blocking</span></span></span></span></span></h1>
+<p>如有可能，我们希望能够将矩阵分成足够装进寄存器/缓存行的小矩阵块，然后在这个小矩阵块上进行计算。因此我们要实现一个子函数<code>AddDot_MRxNR</code>来做这个事情。</p>
+<p>教程里首先要求我们把C矩阵分块为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>R</mi></msub><mo>×</mo><msub><mi>n</mi><mi>R</mi></msub></mrow><annotation encoding="application/x-tex">m_R \times n_R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>的小块，然后对每个小块进行计算。这里我们选择<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>R</mi></msub><mo>=</mo><mn>4</mn><mo separator="true">,</mo><msub><mi>n</mi><mi>R</mi></msub><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">m_R = 4, n_R = 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>。</p>
+<p>这里不可避免的一件事是要把循环顺序从ipj变成ijp, 我自己测试了原来ipj的写法，因为如果我们要一次算一个块的话，每次在内层循环反复读取小矩阵（注意到矩阵下标是随j变化的）实际上是对缓存很不友好的。实测GFLOPS约为1，比没优化还差。</p>
+<p>所以我们的思路很明确：一步从内存读出小矩阵，全部算完后一步写回内存。</p>
+<p>初步写出的代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">AddDot_MRxNR</span><span class="params">(<span class="type">int</span> k, <span class="type">double</span> *A, <span class="type">int</span> lda, <span class="type">double</span> *B, <span class="type">int</span> ldb, <span class="type">double</span> *C, <span class="type">int</span> ldc)</span> &#123;</span><br><span class="line">  <span class="type">int</span> ir, jr;</span><br><span class="line">  <span class="type">int</span> p;</span><br><span class="line">  <span class="type">double</span> *ap, *cp;</span><br><span class="line">  <span class="keyword">for</span> (jr = <span class="number">0</span>; jr &lt; DGEMM_NR; jr += <span class="number">4</span>) &#123;</span><br><span class="line">    <span class="type">double</span> *b0 = &amp;B(<span class="number">0</span>, jr);</span><br><span class="line">    <span class="type">double</span> *b1 = &amp;B(<span class="number">0</span>, jr + <span class="number">1</span>);</span><br><span class="line">    <span class="type">double</span> *b2 = &amp;B(<span class="number">0</span>, jr + <span class="number">2</span>);</span><br><span class="line">    <span class="type">double</span> *b3 = &amp;B(<span class="number">0</span>, jr + <span class="number">3</span>);</span><br><span class="line">    <span class="keyword">for</span> (ir = <span class="number">0</span>; ir &lt; DGEMM_MR; ir += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">register</span> <span class="type">double</span> c00 = C(ir, jr), c10 = C(ir + <span class="number">1</span>, jr), c20 = C(ir + <span class="number">2</span>, jr), c30 = C(ir + <span class="number">3</span>, jr);</span><br><span class="line">      <span class="keyword">register</span> <span class="type">double</span> c01 = C(ir, jr + <span class="number">1</span>), c11 = C(ir + <span class="number">1</span>, jr + <span class="number">1</span>), c21 = C(ir + <span class="number">2</span>, jr + <span class="number">1</span>), c31 = C(ir + <span class="number">3</span>, jr + <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">register</span> <span class="type">double</span> c02 = C(ir, jr + <span class="number">2</span>), c12 = C(ir + <span class="number">1</span>, jr + <span class="number">2</span>), c22 = C(ir + <span class="number">2</span>, jr + <span class="number">2</span>), c32 = C(ir + <span class="number">3</span>, jr + <span class="number">2</span>);</span><br><span class="line">      <span class="keyword">register</span> <span class="type">double</span> c03 = C(ir, jr + <span class="number">3</span>), c13 = C(ir + <span class="number">1</span>, jr + <span class="number">3</span>), c23 = C(ir + <span class="number">2</span>, jr + <span class="number">3</span>), c33 = C(ir + <span class="number">3</span>, jr + <span class="number">3</span>);</span><br><span class="line">      <span class="keyword">for</span> (p = <span class="number">0</span>; p &lt; k; p++) &#123;</span><br><span class="line">        <span class="keyword">register</span> <span class="type">double</span> *ap = &amp;A(<span class="number">0</span>, p);</span><br><span class="line">        <span class="keyword">register</span> <span class="type">double</span> b0p = b0[p];</span><br><span class="line">        <span class="keyword">register</span> <span class="type">double</span> b1p = b1[p];</span><br><span class="line">        <span class="keyword">register</span> <span class="type">double</span> b2p = b2[p];</span><br><span class="line">        <span class="keyword">register</span> <span class="type">double</span> b3p = b3[p];</span><br><span class="line">        c00 += ap[<span class="number">0</span>] * b0p;</span><br><span class="line">        c10 += ap[<span class="number">1</span>] * b0p;</span><br><span class="line">        c20 += ap[<span class="number">2</span>] * b0p;</span><br><span class="line">        c30 += ap[<span class="number">3</span>] * b0p;</span><br><span class="line">        c01 += ap[<span class="number">0</span>] * b1p;</span><br><span class="line">        c11 += ap[<span class="number">1</span>] * b1p;</span><br><span class="line">        c21 += ap[<span class="number">2</span>] * b1p;</span><br><span class="line">        c31 += ap[<span class="number">3</span>] * b1p;</span><br><span class="line">        c02 += ap[<span class="number">0</span>] * b2p;</span><br><span class="line">        c12 += ap[<span class="number">1</span>] * b2p;</span><br><span class="line">        c22 += ap[<span class="number">2</span>] * b2p;</span><br><span class="line">        c32 += ap[<span class="number">3</span>] * b2p;</span><br><span class="line">        c03 += ap[<span class="number">0</span>] * b3p;</span><br><span class="line">        c13 += ap[<span class="number">1</span>] * b3p;</span><br><span class="line">        c23 += ap[<span class="number">2</span>] * b3p;</span><br><span class="line">        c33 += ap[<span class="number">3</span>] * b3p;</span><br><span class="line">      &#125;</span><br><span class="line">      C(ir, jr) = c00;</span><br><span class="line">      C(ir + <span class="number">1</span>, jr) = c10;</span><br><span class="line">      C(ir + <span class="number">2</span>, jr) = c20;</span><br><span class="line">      C(ir + <span class="number">3</span>, jr) = c30;</span><br><span class="line">      C(ir, jr + <span class="number">1</span>) = c01;</span><br><span class="line">      C(ir + <span class="number">1</span>, jr + <span class="number">1</span>) = c11;</span><br><span class="line">      C(ir + <span class="number">2</span>, jr + <span class="number">1</span>) = c21;</span><br><span class="line">      C(ir + <span class="number">3</span>, jr + <span class="number">1</span>) = c31;</span><br><span class="line">      C(ir, jr + <span class="number">2</span>) = c02;</span><br><span class="line">      C(ir + <span class="number">1</span>, jr + <span class="number">2</span>) = c12;</span><br><span class="line">      C(ir + <span class="number">2</span>, jr + <span class="number">2</span>) = c22;</span><br><span class="line">      C(ir + <span class="number">3</span>, jr + <span class="number">2</span>) = c32;</span><br><span class="line">      C(ir, jr + <span class="number">3</span>) = c03;</span><br><span class="line">      C(ir + <span class="number">1</span>, jr + <span class="number">3</span>) = c13;</span><br><span class="line">      C(ir + <span class="number">2</span>, jr + <span class="number">3</span>) = c23;</span><br><span class="line">      C(ir + <span class="number">3</span>, jr + <span class="number">3</span>) = c33;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">bl_dgemm</span><span class="params">(</span></span><br><span class="line"><span class="params">    <span class="type">int</span> m,</span></span><br><span class="line"><span class="params">    <span class="type">int</span> n,</span></span><br><span class="line"><span class="params">    <span class="type">int</span> k,</span></span><br><span class="line"><span class="params">    <span class="type">double</span> *A,</span></span><br><span class="line"><span class="params">    <span class="type">int</span> lda,</span></span><br><span class="line"><span class="params">    <span class="type">double</span> *B,</span></span><br><span class="line"><span class="params">    <span class="type">int</span> ldb,</span></span><br><span class="line"><span class="params">    <span class="type">double</span> *C,        <span class="comment">// must be aligned</span></span></span><br><span class="line"><span class="params">    <span class="type">int</span> ldc        <span class="comment">// ldc must also be aligned</span></span></span><br><span class="line"><span class="params">)</span> &#123;</span><br><span class="line">  <span class="type">int</span> i, j, p;</span><br><span class="line">  <span class="type">int</span> ir, jr;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Early return if possible</span></span><br><span class="line">  <span class="keyword">if</span> (m == <span class="number">0</span> || n == <span class="number">0</span> || k == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;bl_dgemm(): early return\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j += DGEMM_NR) &#123;          <span class="comment">// Start 2-nd loop</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i += DGEMM_MR) &#123;      <span class="comment">// Start 1-st loop</span></span><br><span class="line"></span><br><span class="line">      AddDot_MRxNR(k, &amp;A(i, <span class="number">0</span>), lda, &amp;B(<span class="number">0</span>, j), ldb, &amp;C(i, j), ldc);</span><br><span class="line"></span><br><span class="line">    &#125;                                          <span class="comment">// End   1-st loop</span></span><br><span class="line">  &#125;                                              <span class="comment">// End   2-nd loop</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这份代码的GFLOPS经过测试大约在4.6到5.5之间，绝大部分情况下都能超过5，虽然波动较大但是相比之前最好的版本又有了一倍多的提升。</p>
+<p>注意内层的p循环，如果我们调换<code>p</code>和<code>ir</code>，即使我们使用循环展开也救不了性能。</p>
+<p>得益于分块，这份代码虽然在内循环A的行访问时不能做到非常友好，但是也不错了，p循环开始时读取一次内存，接下来4个double都是连续的。</p>
+<p>这个分块仅仅是寄存器层面的，我们还可以进一步分块，比如说把矩阵分块到L1缓存，这个就是下一步的优化。</p>
+<!-- flag of hidden posts -->
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/High-Performance-Computing/" rel="tag"># High Performance Computing</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLV</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
+
+
+
+</body>
+</html>

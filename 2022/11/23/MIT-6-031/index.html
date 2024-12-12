@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Some interesting points in MIT 6.S031...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT 6.031 - Software Construction闲话">
+<meta property="og:url" content="http://example.com/2022/11/23/MIT-6-031/index.html">
+<meta property="og:site_name" content="&quot;The World&quot; of CLV">
+<meta property="og:description" content="Some interesting points in MIT 6.S031...">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-11-23T05:57:08.000Z">
+<meta property="article:modified_time" content="2023-01-05T04:19:26.098Z">
+<meta property="article:author" content="CLV">
+<meta property="article:tag" content="Code Engineering">
+<meta property="article:tag" content="csdiy">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/11/23/MIT-6-031/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/11/23/MIT-6-031/","path":"2022/11/23/MIT-6-031/","title":"MIT 6.031 - Software Construction闲话"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MIT 6.031 - Software Construction闲话 | "The World" of CLV</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">"The World" of CLV</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="comment fa-fw"></i>guestbook</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E8%BF%99%E4%B8%AA%E5%9D%91"><span class="nav-number">1.</span> <span class="nav-text"> 关于为什么要开这个坑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text1-static-checking"><span class="nav-number">2.</span> <span class="nav-text"> 1. Static Checking\text{1. Static Checking}1. Static Checking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E7%9B%AE%E6%A0%87"><span class="nav-number">2.1.</span> <span class="nav-text"> 课程目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E9%A1%BB%E6%8E%8C%E6%8F%A1%E5%A4%9A%E7%A7%8D%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-number">2.2.</span> <span class="nav-text"> 好的程序员必须掌握多种编程语言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text3-testing"><span class="nav-number">3.</span> <span class="nav-text"> 3. Testing\text{3. Testing}3. Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%BC%98%E5%85%88"><span class="nav-number">3.1.</span> <span class="nav-text"> 测试优先</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%80%A7%E5%9C%B0%E6%B5%8B%E8%AF%95"><span class="nav-number">3.2.</span> <span class="nav-text"> 系统性地测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text4-code-review"><span class="nav-number">4.</span> <span class="nav-text"> 4. Code Review\text{4. Code Review}4. Code Review</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E7%94%A8%E9%80%94"><span class="nav-number">4.1.</span> <span class="nav-text"> 一个变量只有一个用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E7%94%A8tmp-data%E8%BF%99%E6%A0%B7%E7%9A%84%E5%8F%98%E9%87%8F%E5%90%8D"><span class="nav-number">4.2.</span> <span class="nav-text"> 不要用tmp, data这样的变量名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%91%E5%86%99%E7%89%B9%E5%88%A4%E4%BB%A3%E7%A0%81"><span class="nav-number">4.3.</span> <span class="nav-text"> 少写特判代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E7%BC%A9%E8%BF%9B"><span class="nav-number">4.4.</span> <span class="nav-text"> 不要缩进</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text9-avoid-debugging"><span class="nav-number">5.</span> <span class="nav-text"> 9. Avoid Debugging\text{9. Avoid Debugging}9. Avoid Debugging</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%96%84%E7%94%A8textassert"><span class="nav-number">5.1.</span> <span class="nav-text"> 善用assert\text{assert}assert</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E5%BA%94%E8%AF%A5%E4%BD%BF%E7%94%A8textassert%E6%A3%80%E6%9F%A5"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 什么东西应该使用assert\text{assert}assert检查？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%8D%E5%BA%94%E8%AF%A5%E6%94%BE%E5%9C%A8textassert%E9%87%8C"><span class="nav-number">5.1.2.</span> <span class="nav-text"> 什么东西不应该放在assert\text{assert}assert里？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E9%87%8F%E5%BC%8F%E5%BC%80%E5%8F%91"><span class="nav-number">5.2.</span> <span class="nav-text"> 增量式开发</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLV</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/CreeperLordVader-Iclucia-Ashina" class="github-corner" title="Fork me on GitHub!" aria-label="Fork me on GitHub!" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/23/MIT-6-031/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MIT 6.031 - Software Construction闲话 | "The World" of CLV">
+      <meta itemprop="description" content="Some interesting points in MIT 6.S031...">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIT 6.031 - Software Construction闲话
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-11-23 13:57:08" itemprop="dateCreated datePublished" datetime="2022-11-23T13:57:08+08:00">2022-11-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-05 12:19:26" itemprop="dateModified" datetime="2023-01-05T12:19:26+08:00">2023-01-05</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Some interesting points in MIT 6.S031...</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="关于为什么要开这个坑"><a class="markdownIt-Anchor" href="#关于为什么要开这个坑"></a> 关于为什么要开这个坑</h1>
+<p>网课时代到来了，这是天赐良机，要开始全面csdiy啦</p>
+<p>至于为什么要选这个…</p>
+<blockquote>
+<p>学术界当然也要讲究这个，不然写出来的是什么东西</p>
+</blockquote>
+<p>以后不管走什么路，只要还跟程序打交道，终归是要开发重型软件或者大型系统的。现在在做的一些大作业或者自己的开源小项目虽然算不上重工业，但是多少也需要讲究一些基本原则，在平时的开发里就要养成规范的习惯。</p>
+<p>之前工程经验为零，思维还停留在竞赛时代的小代码。在做慢慢开始动手小工程时由于各种操作不规范，耽误了相当多的时间，开发效率低下，因此非常有必要学习软件构建的原则和方法论。因此首选<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MIT</mtext></mrow><annotation encoding="application/x-tex">\text{MIT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MIT</span></span></span></span></span>的这门课。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MIT</mtext></mrow><annotation encoding="application/x-tex">\text{MIT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">MIT</span></span></span></span></span>出品，必属精品。</p>
+<p>此外，这门课有相当完善的Notes和作业和Project，而且也不是很烧脑<s>非常适合一边挂着腾讯会议听网课一边看Notes</s>，这门课没有视频课，因此这是最快最高效的学习方法。作业啥的做不做是一回事儿，但是很多有用的闲话确实可以记录在此。</p>
+<p>这门课使用的语言是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Java</mtext></mrow><annotation encoding="application/x-tex">\text{Java}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Java</span></span></span></span></span>，当然，如果真要做，确实可以练手<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Java</mtext></mrow><annotation encoding="application/x-tex">\text{Java}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Java</span></span></span></span></span>，但是软件构建的要点对于几乎所有语言都是适用的<s>除了根本不适合重型开发的语言</s>。</p>
+<p>这个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Blog</mtext></mrow><annotation encoding="application/x-tex">\text{Blog}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Blog</span></span></span></span></span>仅用于记录每一节我读到的很有启发意义的点，以一级标题列出每一节主题，以二级标题列出这些重要的点。</p>
+<h1 id="text1-static-checking"><a class="markdownIt-Anchor" href="#text1-static-checking"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. Static Checking</mtext></mrow><annotation encoding="application/x-tex">\text{1. Static Checking}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">1. Static Checking</span></span></span></span></span></h1>
+<p>这一节主要介绍了静态类型语言和动态类型语言的编译时检查和运行时检查。其实没什么特别重要的点，毕竟是有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C/C++</mtext></mrow><annotation encoding="application/x-tex">\text{C/C++}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">C/C++</span></span></span></span></span>经验了这里列出来的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Bug</mtext></mrow><annotation encoding="application/x-tex">\text{Bug}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Bug</span></span></span></span></span>都经历过<s>只要记住动态类型火葬场就行</s></p>
+<h2 id="课程目标"><a class="markdownIt-Anchor" href="#课程目标"></a> 课程目标</h2>
+<p>以后随时提醒自己，写出来的项目一定要做到:</p>
+<blockquote>
+<p>Safe from Bugs.</p>
+</blockquote>
+<blockquote>
+<p>Easy to Understand.</p>
+</blockquote>
+<blockquote>
+<p>Ready for Change.</p>
+</blockquote>
+<h2 id="好的程序员必须掌握多种编程语言"><a class="markdownIt-Anchor" href="#好的程序员必须掌握多种编程语言"></a> 好的程序员必须掌握多种编程语言</h2>
+<h1 id="text3-testing"><a class="markdownIt-Anchor" href="#text3-testing"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. Testing</mtext></mrow><annotation encoding="application/x-tex">\text{3. Testing}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">3. Testing</span></span></span></span></span></h1>
+<p>及时准确的测试是提高开发效率的关键</p>
+<h2 id="测试优先"><a class="markdownIt-Anchor" href="#测试优先"></a> 测试优先</h2>
+<p>下面这种顺序是非常推荐的。</p>
+<blockquote>
+<p>首先应该写好模块的规范</p>
+</blockquote>
+<blockquote>
+<p>然后编写好测试程序</p>
+</blockquote>
+<blockquote>
+<p>最后来写实现</p>
+</blockquote>
+<p>而不是写完一大坨各种屎山代码然后一起跑跑出锅了再钻回屎山找<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Bug</mtext></mrow><annotation encoding="application/x-tex">\text{Bug}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Bug</span></span></span></span></span>。</p>
+<h2 id="系统性地测试"><a class="markdownIt-Anchor" href="#系统性地测试"></a> 系统性地测试</h2>
+<p>正确，全面，并且规模小</p>
+<p>因此要合理划分可能的问题域（并且写在规范里），在问题域的每个划分内取用例进行测试。</p>
+<h1 id="text4-code-review"><a class="markdownIt-Anchor" href="#text4-code-review"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>4. Code Review</mtext></mrow><annotation encoding="application/x-tex">\text{4. Code Review}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">4. Code Review</span></span></span></span></span></h1>
+<p>其实这一节的很多老生常谈在《代码整洁之道》这样的书里也都讲过。。。</p>
+<h2 id="一个变量只有一个用途"><a class="markdownIt-Anchor" href="#一个变量只有一个用途"></a> 一个变量只有一个用途</h2>
+<p>变量不是稀缺资源，不要给同一个变量前前后后赋予多种含义。</p>
+<h2 id="不要用tmp-data这样的变量名"><a class="markdownIt-Anchor" href="#不要用tmp-data这样的变量名"></a> 不要用tmp, data这样的变量名</h2>
+<p>这说明你的设计是偷懒的。。。变量名应该更具描述性。</p>
+<h2 id="少写特判代码"><a class="markdownIt-Anchor" href="#少写特判代码"></a> 少写特判代码</h2>
+<p>不要一上来就先写特判，应该首先写出适用于大多数情况的代码，检查它是否能应对某些“特殊情况”，不能的话再改，使其更具普适性。本末倒置是不好的。</p>
+<p>用原讲义中的加粗体来说，<strong>你应该主动抵抗想要单独处理特殊情况的诱惑</strong>。</p>
+<h2 id="不要缩进"><a class="markdownIt-Anchor" href="#不要缩进"></a> 不要缩进</h2>
+<p>意思不是说你不能敲<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Tab</mtext></mrow><annotation encoding="application/x-tex">\text{Tab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Tab</span></span></span></span></span>，但是你的编辑器最好把<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Tab</mtext></mrow><annotation encoding="application/x-tex">\text{Tab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Tab</span></span></span></span></span>处理成一堆空格，以免制表符在你的程序文本里被编译器啥的误解了。</p>
+<h1 id="text9-avoid-debugging"><a class="markdownIt-Anchor" href="#text9-avoid-debugging"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>9. Avoid Debugging</mtext></mrow><annotation encoding="application/x-tex">\text{9. Avoid Debugging}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">9. Avoid Debugging</span></span></span></span></span></h1>
+<p>如果规范写得清晰，错误处理得好，很多时候只需要看代码即可定位bug的位置。</p>
+<h2 id="善用textassert"><a class="markdownIt-Anchor" href="#善用textassert"></a> 善用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span></h2>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>在运行时检查条件，非常重要，但是不能滥用。</p>
+<h3 id="什么东西应该使用textassert检查"><a class="markdownIt-Anchor" href="#什么东西应该使用textassert检查"></a> 什么东西应该使用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>检查？</h3>
+<p>对传入参数的规范检查：例如取值范围之类。</p>
+<p>对返回值的检查：也称自检。</p>
+<p>条件语句和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>switch</mtext></mrow><annotation encoding="application/x-tex">\text{switch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">switch</span></span></span></span></span>语句：为了防止你的条件没有覆盖所有可能的情况，用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>对不满足所有条件的情况做检查是好文明。</p>
+<h3 id="什么东西不应该放在textassert里"><a class="markdownIt-Anchor" href="#什么东西不应该放在textassert里"></a> 什么东西不应该放在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>里？</h3>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>包围的表达式<strong>不应该有副作用</strong>，这是因为在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Debug</mtext></mrow><annotation encoding="application/x-tex">\text{Debug}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Debug</span></span></span></span></span>模式下<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>会启用，但是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Release</mtext></mrow><annotation encoding="application/x-tex">\text{Release}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Release</span></span></span></span></span>模式就不是了，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>assert</mtext></mrow><annotation encoding="application/x-tex">\text{assert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">assert</span></span></span></span></span>内的表达式可能不会被计算。</p>
+<h2 id="增量式开发"><a class="markdownIt-Anchor" href="#增量式开发"></a> 增量式开发</h2>
+<p>一点点慢慢写，一点点慢慢测，不要写了一大坨然后一起折腾。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Code-Engineering/" rel="tag"># Code Engineering</a>
+              <a href="/tags/csdiy/" rel="tag"># csdiy</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/17/Continuum-Mechanics-Kinematics/" rel="prev" title="Vanilla Continuum Mechanics - Kinematics of Continuum">
+                  <i class="fa fa-chevron-left"></i> Vanilla Continuum Mechanics - Kinematics of Continuum
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/01/05/MIT6-S081%20Lab-1:%20Utilities/" rel="next" title="MIT-6.S081 Lab-1:Utilities">
+                  MIT-6.S081 Lab-1:Utilities <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLV</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
+
+
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="居然没有hard难度的任务，我哭死">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.S081 Lab-5: Lazy Allocation">
+<meta property="og:url" content="http://example.com/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/index.html">
+<meta property="og:site_name" content="&quot;The World&quot; of CLV">
+<meta property="og:description" content="居然没有hard难度的任务，我哭死">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-14T01:50:28.000Z">
+<meta property="article:modified_time" content="2023-02-14T14:11:04.676Z">
+<meta property="article:author" content="CLV">
+<meta property="article:tag" content="Operating System">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/","path":"2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/","title":"MIT6.S081 Lab-5: Lazy Allocation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MIT6.S081 Lab-5: Lazy Allocation | "The World" of CLV</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">"The World" of CLV</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="comment fa-fw"></i>guestbook</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text1-%E4%BF%AE%E6%94%B9sbrk"><span class="nav-number">1.</span> <span class="nav-text"> 1. 修改sbrk\text{1. 修改sbrk}1. 修改sbrk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text2-lazy-allocation"><span class="nav-number">2.</span> <span class="nav-text"> 2. Lazy Allocation\text{2. Lazy Allocation}2. Lazy Allocation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text3-%E5%90%84%E7%A7%8D%E5%A5%87%E8%91%A9%E7%9A%84%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5"><span class="nav-number">3.</span> <span class="nav-text"> 3. 各种奇葩的特殊情况\text{3. 各种奇葩的特殊情况}3. 各种奇葩的特殊情况</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLV</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/CreeperLordVader-Iclucia-Ashina" class="github-corner" title="Fork me on GitHub!" aria-label="Fork me on GitHub!" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/14/MIT6-S081-Lab-5-Lazy-Alloc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MIT6.S081 Lab-5: Lazy Allocation | "The World" of CLV">
+      <meta itemprop="description" content="居然没有hard难度的任务，我哭死">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIT6.S081 Lab-5: Lazy Allocation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-02-14 09:50:28 / Modified: 22:11:04" itemprop="dateCreated datePublished" datetime="2023-02-14T09:50:28+08:00">2023-02-14</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">居然没有hard难度的任务，我哭死</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>从上课视频来看，估计当年上这门课的同学们被<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Table Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Page Table Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Table Lab</span></span></span></span></span>整破防了，于是教授在这里想方设法地降难度给提示来补偿大家在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Table Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Page Table Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Table Lab</span></span></span></span></span>受的罪。</p>
+<p>本次实验要实现<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy Allocation</span></span></span></span></span>。应用程序通常不会事先知道自己要用多少内存，因此往往会有很多内存预先申请了但是没有使用，造成了很大的浪费。如果实现<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy-Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy-Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy-Allocation</span></span></span></span></span>，就可以提高内存的利用率。具体而言，我们给应用程序分配虚拟地址，但是不急着分配对应的物理空间，而是直到进程需要访问物理空间的时候才分配<s>就像老师宣布要ddl了你才开始赶作业一样</s>。</p>
+<h1 id="text1-修改sbrk"><a class="markdownIt-Anchor" href="#text1-修改sbrk"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 修改sbrk</mtext></mrow><annotation encoding="application/x-tex">\text{1. 修改sbrk}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">修改</span><span class="mord">sbrk</span></span></span></span></span></h1>
+<p>第一步是修改<code>sbrk</code>或者说就是修改<code>growproc</code>，很简单，直接修改进程大小字段即可，不分配物理页，等到访问（不存在的）物理页发生<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>了再分配。所以这一步做完以后用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>shell</mtext></mrow><annotation encoding="application/x-tex">\text{shell}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">shell</span></span></span></span></span>执行命令必然会出错。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span></span><br><span class="line"><span class="title function_">growproc</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">  myproc()-&gt;sz += n;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="text2-lazy-allocation"><a class="markdownIt-Anchor" href="#text2-lazy-allocation"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{2. Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">2. Lazy Allocation</span></span></span></span></span></h1>
+<p>其实到这里为止，教授都在课堂上写过代码。。。在<code>usertrap</code>中判断中断原因（检查<code>scause</code>寄存器的值）是否为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>，然后从<code>stval</code>寄存器中取出发生<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>的虚拟地址，再<s>照抄</s>参考借鉴<code>uvmalloc</code>中的代码片段就行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(r_scause() == <span class="number">13</span> || r_scause() == <span class="number">15</span>)</span><br><span class="line">&#123;</span><br><span class="line">  uint64 va = r_stval();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;usertrap(): scause %p: page fault. pid=%d\n&quot;</span>, r_scause(), p-&gt;pid);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;            sepc=%p stval=%p. Doing lazy allocation.\n&quot;</span>, r_sepc(), r_stval());</span><br><span class="line">  uint64* mem = (uint64*)kalloc();</span><br><span class="line">  <span class="keyword">if</span>(mem == <span class="number">0</span>) p-&gt;killed = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">memset</span>(mem, <span class="number">0</span>, PGSIZE);</span><br><span class="line">  uint64 a = PGROUNDDOWN(va);</span><br><span class="line">  <span class="keyword">if</span>(mappages(p-&gt;pagetable, a, PGSIZE, (uint64)mem, PTE_W|PTE_R|PTE_U) != <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    kfree(mem);</span><br><span class="line">    p-&gt;killed = <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(p-&gt;killed)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Oops, lazy allocation failed. Killed process.\n&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;Lazy allocation done: %p -&gt; %p\n&quot;</span>, a, (uint64)mem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;usertrap(): unexpected scause %p pid=%d\n&quot;</span>, r_scause(), p-&gt;pid);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;            sepc=%p stval=%p\n&quot;</span>, r_sepc(), r_stval());</span><br><span class="line">  p-&gt;killed = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过在<code>uvmunmap</code>中，如果我们遇到了一个没分配物理地址的虚拟地址（一般来说就是分配了但是还没等到用就被释放了），<code>uvmunmap</code>会<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>panic</mtext></mrow><annotation encoding="application/x-tex">\text{panic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623000000000001em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">panic</span></span></span></span></span>，把相关的判断去掉即可。此外，如果设置了释放物理页的选项，那么用<code>kfree</code>释放一个未分配物理页的虚拟页也会<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>panic</mtext></mrow><annotation encoding="application/x-tex">\text{panic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623000000000001em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">panic</span></span></span></span></span>，因此在<code>kfree</code>之前先检查物理页是否存在，如果它不存在（还没分配）那就不用释放了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">uvmunmap</span><span class="params">(<span class="type">pagetable_t</span> pagetable, uint64 va, uint64 npages, <span class="type">int</span> do_free)</span></span><br><span class="line">&#123;</span><br><span class="line">  uint64 a;</span><br><span class="line">  <span class="type">pte_t</span> *pte;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>((va % PGSIZE) != <span class="number">0</span>)</span><br><span class="line">    panic(<span class="string">&quot;uvmunmap: not aligned&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(a = va; a &lt; va + npages*PGSIZE; a += PGSIZE)&#123;</span><br><span class="line">    <span class="keyword">if</span>((pte = walk(pagetable, a, <span class="number">0</span>)) == <span class="number">0</span>)</span><br><span class="line">      panic(<span class="string">&quot;uvmunmap: walk&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(PTE_FLAGS(*pte) == PTE_V)</span><br><span class="line">      panic(<span class="string">&quot;uvmunmap: not a leaf&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(do_free)&#123;</span><br><span class="line">      uint64 pa = PTE2PA(*pte);</span><br><span class="line">      <span class="keyword">if</span>(*pte &amp; PTE_V) kfree((<span class="type">void</span>*)pa);</span><br><span class="line">    &#125;</span><br><span class="line">    *pte = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="text3-各种奇葩的特殊情况"><a class="markdownIt-Anchor" href="#text3-各种奇葩的特殊情况"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>3. 各种奇葩的特殊情况</mtext></mrow><annotation encoding="application/x-tex">\text{3. 各种奇葩的特殊情况}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">3. </span><span class="mord cjk_fallback">各种奇葩的特殊情况</span></span></span></span></span></h1>
+<p>虽然这个难度标的是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>moderate</mtext></mrow><annotation encoding="application/x-tex">\text{moderate}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">moderate</span></span></span></span></span>，但是我花的时间差不多相当于一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>hard</mtext></mrow><annotation encoding="application/x-tex">\text{hard}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">hard</span></span></span></span></span><s>太菜了</s>，感觉大概是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>moderate</mtext></mrow><annotation encoding="application/x-tex">\text{moderate}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">moderate</span></span></span></span></span>里比较麻烦的那种<s>顶尖力B肯定比不过普通力A嘛</s>。不过它当然比不上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Table Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Page Table Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Table Lab</span></span></span></span></span>那两个魔鬼<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>hard</mtext></mrow><annotation encoding="application/x-tex">\text{hard}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">hard</span></span></span></span></span>任务。</p>
+<p>尽管如此，还是有一些坑点。提示里面已经给出了一些要完善的地方，比如判断虚拟地址的范围不能爆栈，比如注意缩小用户进程内存空间的情况（个人认为应该及时<code>uvmdemalloc</code>，不这么做的话你不能指望后面会在这里发生<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>让你释放物理页）。。。这些都还是比较简单的，很多做个判断差不多就行。下面列出几个比较坑的地方。</p>
+<p>首先是不建议在<code>usertrap</code>里给错误信息输出提示语句，因为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>usertests</mtext></mrow><annotation encoding="application/x-tex">\text{usertests}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">usertests</span></span></span></span></span>里有几个邪门测试是要疯狂分配内存直到穷尽地址空间为止，教授就是希望你能判断出这些情况不合法然后不处理或者杀掉进程。但是这些邪门的测试把这种事情干了很多很多很多遍，所以输出了一大堆错误提示信息让我误以为出问题了，然后对空<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>debug</mtext></mrow><annotation encoding="application/x-tex">\text{debug}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">debug</span></span></span></span></span>搞半天。。。实际上就是正常的。</p>
+<p>然后是<code>sbrkbug</code>测试的一个坑点，这个测试会调用<code>sbrk</code>把用户进程内存空间缩小为0。。。然后肯定会触发<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>，但是这个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>的错误代码既不是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn></mrow><annotation encoding="application/x-tex">13</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">3</span></span></span></span>也不是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn></mrow><annotation encoding="application/x-tex">15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">5</span></span></span></span>而是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn></mrow><annotation encoding="application/x-tex">12</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span></span></span></span>，在<code>usertrap</code>里要注意这种情况，不然会一直处理这个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Page Fault</mtext></mrow><annotation encoding="application/x-tex">\text{Page Fault}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Page Fault</span></span></span></span></span>。</p>
+<p>最后是<code>sbrkarg</code>测试，这个测试可以检查你是否做对了<code>copyin</code>。<code>copyin</code>接受用户空间的指针的时候会用<code>walkaddr</code>去寻找对应的物理地址，如果没找到的话会直接判错并返回。但是现在我们采用了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy Allocation</span></span></span></span></span>策略，有可能访问到合法但是未分配的物理地址，这时我们当然不能草率地返回一个错误码。因此在<code>walkaddr</code>里面也要进行<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy Allocation</span></span></span></span></span>，如果我们访问不到物理地址，可以试试看是不是需要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy Allocation</span></span></span></span></span>，如果<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lazy Allocation</mtext></mrow><annotation encoding="application/x-tex">\text{Lazy Allocation}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Lazy Allocation</span></span></span></span></span>成功了就再访问一次（我知道可以优化一小下，懒得改了），这次我们就得到合法的物理地址了。</p>
+<p>代码大致长这样</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">uint64</span><br><span class="line"><span class="title function_">walkaddr</span><span class="params">(<span class="type">pagetable_t</span> pagetable, uint64 va)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">pte_t</span> *pte;</span><br><span class="line">  uint64 pa;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(va &gt;= MAXVA)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  pte = walk(pagetable, va, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">if</span>(!pte || ((*pte) &amp; PTE_V) == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(!lazy_alloc(va)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    pte = walk(pagetable, va, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>((*pte &amp; PTE_U) == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  pa = PTE2PA(*pte);</span><br><span class="line">  <span class="keyword">return</span> pa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>lazy_alloc</code>是我把第二个任务写在<code>usertrap</code>里的代码提取出来的函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">lazy_alloc</span><span class="params">(uint64 va)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">proc</span> *<span class="title">p</span> =</span> myproc();</span><br><span class="line">  <span class="keyword">if</span>(va &gt;= MAXVA) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(va &gt;= p-&gt;sz || va &lt; p-&gt;trapframe-&gt;sp) </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  uint64* mem = (uint64*)kalloc();</span><br><span class="line">  <span class="keyword">if</span>(mem == <span class="number">0</span>) </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">//printf(&quot;kalloc failed!\n&quot;);</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">memset</span>(mem, <span class="number">0</span>, PGSIZE);</span><br><span class="line">  uint64 a = PGROUNDDOWN(va);</span><br><span class="line">  <span class="keyword">if</span>(mappages(p-&gt;pagetable, a, PGSIZE, (uint64)mem, PTE_W|PTE_R|PTE_U) != <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;map %p to %p, failed\n&quot;</span>, a, (uint64)mem);</span><br><span class="line">    kfree(mem);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好像就没啥了诶。。。一些细节的改动可以看看我的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>github</mtext></mrow><annotation encoding="application/x-tex">\text{github}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">github</span></span></span></span></span>，虽然它们有些感觉不是必须的。。。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/11/MIT6-S081-Lab-4-Traps/" rel="prev" title="MIT6.S081 Lab-4: Traps">
+                  <i class="fa fa-chevron-left"></i> MIT6.S081 Lab-4: Traps
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/18/MIT6-S081-Lab-6-Copy-on-Write/" rel="next" title="MIT6.S081 Lab-6: Copy on Write">
+                  MIT6.S081 Lab-6: Copy on Write <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLV</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
+
+
+
+</body>
+</html>

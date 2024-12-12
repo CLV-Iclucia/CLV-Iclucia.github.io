@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="写并发控制的时候一定要控制自己不要病发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.S081 Lab-8: Locks">
+<meta property="og:url" content="http://example.com/2023/02/23/MIT6-S081-Lab-8-Locks/index.html">
+<meta property="og:site_name" content="&quot;The World&quot; of CLV">
+<meta property="og:description" content="写并发控制的时候一定要控制自己不要病发">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-22T23:33:13.000Z">
+<meta property="article:modified_time" content="2023-02-24T14:46:00.452Z">
+<meta property="article:author" content="CLV">
+<meta property="article:tag" content="Operating System">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/02/23/MIT6-S081-Lab-8-Locks/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/23/MIT6-S081-Lab-8-Locks/","path":"2023/02/23/MIT6-S081-Lab-8-Locks/","title":"MIT6.S081 Lab-8: Locks"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MIT6.S081 Lab-8: Locks | "The World" of CLV</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">"The World" of CLV</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="comment fa-fw"></i>guestbook</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#text1-%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%8A%A0%E9%80%9F"><span class="nav-number">1.</span> <span class="nav-text"> 1. 并行的内存分配加速\text{1. 并行的内存分配加速}1. 并行的内存分配加速</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text2-%E7%A3%81%E7%9B%98%E5%9D%97%E7%BC%93%E5%AD%98%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text"> 2. 磁盘块缓存的优化\text{2. 磁盘块缓存的优化}2. 磁盘块缓存的优化</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLV</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/CreeperLordVader-Iclucia-Ashina" class="github-corner" title="Fork me on GitHub!" aria-label="Fork me on GitHub!" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/23/MIT6-S081-Lab-8-Locks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLV">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content=""The World" of CLV">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MIT6.S081 Lab-8: Locks | "The World" of CLV">
+      <meta itemprop="description" content="写并发控制的时候一定要控制自己不要病发">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIT6.S081 Lab-8: Locks
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-23 07:33:13" itemprop="dateCreated datePublished" datetime="2023-02-23T07:33:13+08:00">2023-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-02-24 22:46:00" itemprop="dateModified" datetime="2023-02-24T22:46:00+08:00">2023-02-24</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">写并发控制的时候一定要控制自己不要病发</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这几次<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Lab</mtext></mrow><annotation encoding="application/x-tex">\text{Lab}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Lab</span></span></span></span></span>的主题都是“并发控制”，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>在锁这方面的处理虽然简单而且正确，但是造成了大量的锁冲突，导致处理并发以及并行的效率并不高。这次的实验中，我们需要实现一些改进的设计，保证并发正确性的同时提高操作系统处理并发的效率<s>也提高自己病发的频率</s>。</p>
+<h1 id="text1-并行的内存分配加速"><a class="markdownIt-Anchor" href="#text1-并行的内存分配加速"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>1. 并行的内存分配加速</mtext></mrow><annotation encoding="application/x-tex">\text{1. 并行的内存分配加速}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">1. </span><span class="mord cjk_fallback">并行的内存分配加速</span></span></span></span></span></h1>
+<p>任务首先让我们跑了一个小测试，用一堆进程不断的分配以及释放内存，来证明现在的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>在并行内存分配中存在大量的锁冲突，效率低下。其原因就是我们对空闲内存的加锁过于粗暴————不同的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>完全可以同时访问互不相同的内存，但是因为内存只有一把锁并且只能被一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>取得，导致其他的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>只能傻等着。</p>
+<p>方案也很简单，给每个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>一个单独的空闲列表，每个单独的空闲列表都有一把锁，需要用谁的空闲列表就去取谁的锁即可。</p>
+<p>这里可能存在一个问题，那就是如果某个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>的空闲列表用完了，那么它就需要从其他的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>手里“偷”空闲内存。这种情况下需要同时取得两个空闲列表的锁，然后我们就可以放心地进行链表操作，将被偷的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>的空闲内存分配给当前<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>，当该内存被释放时就到了当前<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>的空闲列表里。</p>
+<p>需要注意的一个小点是，在调用<code>mycpu()</code>以及使用其返回值以的时候，都需要保证中断被关闭，因此要在前后套上<code>push_off</code>和<code>pop_off</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// only cpu0 will call this, so there is no need to lock</span></span><br><span class="line"><span class="comment">// after kinit is called, </span></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">kinit</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; NCPU; i++)</span><br><span class="line">    initlock(&amp;cpus[i].kmem.lock, <span class="string">&quot;kmem&quot;</span>);</span><br><span class="line">  freerange(end, (<span class="type">void</span>*)PHYSTOP); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">freerange</span><span class="params">(<span class="type">void</span> *pa_start, <span class="type">void</span> *pa_end)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> *p;</span><br><span class="line">  p = (<span class="type">char</span>*)PGROUNDUP((uint64)pa_start);</span><br><span class="line">  <span class="keyword">for</span>(; p + PGSIZE &lt;= (<span class="type">char</span>*)pa_end; p += PGSIZE)</span><br><span class="line">    kfree(p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Free the page of physical memory pointed at by v,</span></span><br><span class="line"><span class="comment">// which normally should have been returned by a</span></span><br><span class="line"><span class="comment">// call to kalloc().  (The exception is when</span></span><br><span class="line"><span class="comment">// initializing the allocator; see kinit above.)</span></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">kfree</span><span class="params">(<span class="type">void</span> *pa)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">run</span> *<span class="title">r</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(((uint64)pa % PGSIZE) != <span class="number">0</span> || (<span class="type">char</span>*)pa &lt; end || (uint64)pa &gt;= PHYSTOP)</span><br><span class="line">    panic(<span class="string">&quot;kfree&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Fill with junk to catch dangling refs.</span></span><br><span class="line">  <span class="built_in">memset</span>(pa, <span class="number">1</span>, PGSIZE);</span><br><span class="line"></span><br><span class="line">  r = (<span class="keyword">struct</span> run*)pa;</span><br><span class="line">  push_off();</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">cpu</span> *<span class="title">c</span> =</span> mycpu();</span><br><span class="line">  acquire(&amp;c-&gt;kmem.lock);</span><br><span class="line">  r-&gt;next = c-&gt;kmem.freelist;</span><br><span class="line">  c-&gt;kmem.freelist = r;</span><br><span class="line">  release(&amp;c-&gt;kmem.lock);</span><br><span class="line">  pop_off();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// cpu C steal memory from other cpus</span></span><br><span class="line"><span class="type">void</span>* <span class="title function_">steal</span><span class="params">(<span class="keyword">struct</span> cpu *C)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">run</span> *<span class="title">r</span> =</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">struct</span> cpu *c = cpus; c &lt; cpus + NCPU; c++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(c != C)</span><br><span class="line">    &#123;</span><br><span class="line">      acquire(&amp;c-&gt;kmem.lock);</span><br><span class="line">      <span class="keyword">if</span>(c-&gt;kmem.freelist)</span><br><span class="line">      &#123;</span><br><span class="line">        r = c-&gt;kmem.freelist;</span><br><span class="line">        c-&gt;kmem.freelist = r-&gt;next;<span class="comment">// remove r from the free list of c</span></span><br><span class="line">        <span class="comment">// there is no need to put r into the free list of C</span></span><br><span class="line">        <span class="comment">// because r is allocated, when we kfree r</span></span><br><span class="line">        release(&amp;c-&gt;kmem.lock);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      release(&amp;c-&gt;kmem.lock);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r; <span class="comment">// in case NCPU = 1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Allocate one 4096-byte page of physical memory.</span></span><br><span class="line"><span class="comment">// Returns a pointer that the kernel can use.</span></span><br><span class="line"><span class="comment">// Returns 0 if the memory cannot be allocated.</span></span><br><span class="line"><span class="type">void</span> *</span><br><span class="line"><span class="title function_">kalloc</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">run</span> *<span class="title">r</span>;</span></span><br><span class="line">  push_off();</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">cpu</span> *<span class="title">c</span> =</span> mycpu();</span><br><span class="line">  acquire(&amp;c-&gt;kmem.lock);</span><br><span class="line">  r = c-&gt;kmem.freelist;</span><br><span class="line">  <span class="keyword">if</span>(r)</span><br><span class="line">    c-&gt;kmem.freelist = r-&gt;next;</span><br><span class="line">  <span class="keyword">else</span> r = steal(c);</span><br><span class="line">  release(&amp;c-&gt;kmem.lock);</span><br><span class="line">  pop_off();</span><br><span class="line">  <span class="keyword">if</span>(r)</span><br><span class="line">    <span class="built_in">memset</span>((<span class="type">char</span>*)r, <span class="number">5</span>, PGSIZE); <span class="comment">// fill with junk</span></span><br><span class="line">  <span class="keyword">return</span> (<span class="type">void</span>*)r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="text2-磁盘块缓存的优化"><a class="markdownIt-Anchor" href="#text2-磁盘块缓存的优化"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>2. 磁盘块缓存的优化</mtext></mrow><annotation encoding="application/x-tex">\text{2. 磁盘块缓存的优化}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">2. </span><span class="mord cjk_fallback">磁盘块缓存的优化</span></span></span></span></span></h1>
+<p>目前的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>另外一个锁冲突重灾区是磁盘块缓存。读取磁盘的操作非常非常慢，所以一般都要读到内存里缓存好，当然，任意时刻一个磁盘块缓存只能被一个进程访问。之前优化内存分配的方法也就是给每个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CPU</mtext></mrow><annotation encoding="application/x-tex">\text{CPU}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">CPU</span></span></span></span></span>都维护一个“空闲列表”这个时候就不行了。因为分配内存的时候，只要有内存就可以，我们不在乎内存在哪儿，但是对于磁盘块缓存显然不是这回事儿。</p>
+<p>目前的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>在这方面很<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>naive</mtext></mrow><annotation encoding="application/x-tex">\text{naive}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66786em;vertical-align:0em;"></span><span class="mord text"><span class="mord">naive</span></span></span></span></span>，首先要加锁，把已缓存的磁盘块循环遍历一遍，如果没找到要访问的磁盘块还要先缓存，这样才能释放磁盘块缓存的锁。这个过程长而且没必要，我们把整个磁盘缓存都循环了一遍只是为了找那么特定的一个缓存块，这很浪费。</p>
+<p>要优化这个访问，其实可以用一个比较神奇的思路。我们其实还是可以把所有的磁盘缓存块分成几条链表（而不是当前的一条链表），或者说用挂链表来存所有磁盘块。</p>
+<p>插点题外话，在指南里说要用哈希表，我愣了半天，后来才明白，他们说的哈希表这个并不维护什么映射，单纯只是用的挂链表的结构。。。在我这里为肯定就直说挂链表了，算是一些名词的误解吧。</p>
+<p>在前一次实验中我们已经知道了并行的挂链表，所以这并不是难事，给每条链表都加锁即可。</p>
+<p>当然，我们也不可能完全避免锁冲突，有些情况下的锁冲突是可以容忍的。例如：哈希冲突（但是指南说希望你能够改进哈希表的设计以尽可能减少这种情况），两个进程访问同一个磁盘缓存块（这属于是神仙也救不回来的情况），两个进程同时发生了缓存<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>miss</mtext></mrow><annotation encoding="application/x-tex">\text{miss}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66786em;vertical-align:0em;"></span><span class="mord text"><span class="mord">miss</span></span></span></span></span>于是不得不遍历磁盘块来进行替换等等。</p>
+<p>所以我们的思路非常简单，当我们调用<code>bget</code>函数的时候，首先给要访问的一条链表加锁，并且访问这条链表，查看缓存是否命中，如果命中了就很好，我们就可以直接释放锁然后返回。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">buf</span> *<span class="title">b</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is the block already cached?</span></span><br><span class="line">uint idx = blockno % HASHPRIME;</span><br><span class="line">acquire(&amp;bcache.lock[idx]);</span><br><span class="line"><span class="keyword">for</span>(b = bcache.head[idx].next; b != &amp;bcache.head[idx]; b = b-&gt;next)&#123;</span><br><span class="line">  <span class="keyword">if</span>(b-&gt;dev == dev &amp;&amp; b-&gt;blockno == blockno)&#123;</span><br><span class="line">    b-&gt;refcnt++;</span><br><span class="line">    release(&amp;bcache.lock[idx]);</span><br><span class="line">    acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果缓存未命中，那么我们优先在这条链表中查找是否有可以替换的缓存块，运气好的话我们也能找到一个并且替换。上面这两种情况都是只需要对当前访问链表加锁即可，思路非常直接，唯一要注意的可能是及时释放锁以及链表操作，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>xv6</mtext></mrow><annotation encoding="application/x-tex">\text{xv6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">xv6</span></span></span></span></span>在这里用的链表操作起来稍微有些不习惯。。。不过看明白定义也就好了，并不是什么麻烦事儿。</p>
+<p>在运气最坏的情况下，我们在当前这条链表里既不能找到缓存块也找不到可以替换的块，就只能试图在其它链表里寻找可以替换的缓存块了，这也不难，循环所有链表（除了当前列表）并且获取锁（同时拥有两个锁），然后将待替换的块从它原本的链表中删除，插入当前链表中并且修改信息即可。当然，同样要记得及时释放锁。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; HASHPRIME; i++)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span>(i == idx) <span class="keyword">continue</span>;</span><br><span class="line">  acquire(&amp;bcache.lock[i]);</span><br><span class="line">  <span class="comment">// we need to hold both the locks of the i&#x27;th table and the idx&#x27;th table</span></span><br><span class="line">  <span class="keyword">for</span>(b = bcache.head[i].prev; b != &amp;bcache.head[i]; b = b-&gt;prev)&#123;</span><br><span class="line">    <span class="keyword">if</span>(b-&gt;refcnt == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// we find a replaceable buffer, now we remove it from i&#x27;th table and insert it into idx&#x27;th table</span></span><br><span class="line">      b-&gt;dev = dev;</span><br><span class="line">      b-&gt;blockno = blockno;</span><br><span class="line">      b-&gt;valid = <span class="number">0</span>;</span><br><span class="line">      b-&gt;refcnt = <span class="number">1</span>;</span><br><span class="line">      b-&gt;next-&gt;prev = b-&gt;prev;</span><br><span class="line">      b-&gt;prev-&gt;next = b-&gt;next;</span><br><span class="line">      <span class="comment">// we now insert the buffer into the idx&#x27;th table</span></span><br><span class="line">      b-&gt;next = bcache.head[idx].next;</span><br><span class="line">      b-&gt;prev = &amp;bcache.head[idx];</span><br><span class="line">      bcache.head[idx].next-&gt;prev= b;</span><br><span class="line">      bcache.head[idx].next = b;</span><br><span class="line">      <span class="comment">// we then return with bcache.lock[idx] released</span></span><br><span class="line">      release(&amp;bcache.lock[i]);</span><br><span class="line">      release(&amp;bcache.lock[idx]);</span><br><span class="line">      acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">      <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  release(&amp;bcache.lock[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就做完了。。。吗？</p>
+<p>如果我们运行<code>usertests</code>，会发现有的测试卡住不动了。如果你还能记得起上课讲的概念或者拿<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>gdb</mtext></mrow><annotation encoding="application/x-tex">\text{gdb}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">gdb</span></span></span></span></span>调试一下就会发现发生了死锁，这正是指南里面提醒我们的情况：</p>
+<blockquote>
+<p>When replacing a block, you might move a struct buf from one bucket to another bucket, because the new block hashes to a different bucket. You might have a tricky case: the new block might hash to the same bucket as the old block. Make sure you avoid deadlock in that case.</p>
+</blockquote>
+<p>当然，我只注意了前面的部分然后认为自己的思路正确，就没注意到后面那句<s>选择性失明</s>然后当然就寄了。</p>
+<p>回忆课上讲过的，这种死锁的情形常常是这样的：一个进程获取了锁<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，正在等待获取锁<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，而另一个进程获取了锁<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，正在等待获取锁<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。这种情况下两者都不可能获取到锁，一直在等待。解决的方法就是给所有锁排序，规定获取多个锁时必须按照顺序获取。</p>
+<p>因此，我们就得在进行其它链表的访问之前释放当前链表的锁，然后在循环里一次性获取两个，并且是按顺序获取：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">release(&amp;bcache.lock[idx]);</span><br><span class="line"><span class="comment">// we fail to find a replaceable buffer in idx&#x27;th hash table</span></span><br><span class="line"><span class="comment">// we try to replace a buffer in other hash table</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; HASHPRIME; i++)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span>(i == idx) <span class="keyword">continue</span>;</span><br><span class="line">  <span class="keyword">if</span>(i &lt; idx)</span><br><span class="line">  &#123;</span><br><span class="line">    acquire(&amp;bcache.lock[i]);</span><br><span class="line">    acquire(&amp;bcache.lock[idx]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    acquire(&amp;bcache.lock[idx]);</span><br><span class="line">    acquire(&amp;bcache.lock[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// we need to hold both the locks of the i&#x27;th table and the idx&#x27;th table</span></span><br><span class="line">  <span class="keyword">for</span>(b = bcache.head[i].prev; b != &amp;bcache.head[i]; b = b-&gt;prev)&#123;</span><br><span class="line">    <span class="keyword">if</span>(b-&gt;refcnt == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// we find a replaceable buffer, now we remove it from i&#x27;th table and insert it into idx&#x27;th table</span></span><br><span class="line">      b-&gt;dev = dev;</span><br><span class="line">      b-&gt;blockno = blockno;</span><br><span class="line">      b-&gt;valid = <span class="number">0</span>;</span><br><span class="line">      b-&gt;refcnt = <span class="number">1</span>;</span><br><span class="line">      b-&gt;next-&gt;prev = b-&gt;prev;</span><br><span class="line">      b-&gt;prev-&gt;next = b-&gt;next;</span><br><span class="line">      <span class="comment">// we now insert the buffer into the idx&#x27;th table</span></span><br><span class="line">      b-&gt;next = bcache.head[idx].next;</span><br><span class="line">      b-&gt;prev = &amp;bcache.head[idx];</span><br><span class="line">      bcache.head[idx].next-&gt;prev= b;</span><br><span class="line">      bcache.head[idx].next = b;</span><br><span class="line">      <span class="comment">// we then return with bcache.lock[idx] released</span></span><br><span class="line">      release(&amp;bcache.lock[i]);</span><br><span class="line">      release(&amp;bcache.lock[idx]);</span><br><span class="line">      acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">      <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  release(&amp;bcache.lock[i]);</span><br><span class="line">  release(&amp;bcache.lock[idx]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">spinlock</span> <span class="title">lock</span>[<span class="title">HASHPRIME</span>];</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">buf</span> <span class="title">buf</span>[<span class="title">NBUF</span>];</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Linked list of all buffers, through prev/next.</span></span><br><span class="line">  <span class="comment">// Sorted by how recently the buffer was used.</span></span><br><span class="line">  <span class="comment">// head.next is most recent, head.prev is least.</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">buf</span> <span class="title">head</span>[<span class="title">HASHPRIME</span>];</span></span><br><span class="line">&#125; bcache;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span></span><br><span class="line"><span class="title function_">binit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">buf</span> *<span class="title">b</span>;</span></span><br><span class="line"></span><br><span class="line">  uint i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; HASHPRIME; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    initlock(&amp;bcache.lock[i], <span class="string">&quot;bhash&quot;</span>);</span><br><span class="line">    bcache.head[i].prev = &amp;bcache.head[i];</span><br><span class="line">    bcache.head[i].next = &amp;bcache.head[i];</span><br><span class="line">  &#125;</span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(b = bcache.buf; b &lt; bcache.buf+NBUF; b++, i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i == HASHPRIME) i = <span class="number">0</span>;</span><br><span class="line">    b-&gt;next = bcache.head[i].next;</span><br><span class="line">    b-&gt;prev = &amp;bcache.head[i];</span><br><span class="line">    bcache.head[i].next-&gt;prev = b;</span><br><span class="line">    bcache.head[i].next = b;</span><br><span class="line">    <span class="comment">// Create linked list of buffers</span></span><br><span class="line">    initsleeplock(&amp;b-&gt;lock, <span class="string">&quot;buffer&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Look through buffer cache for block on device dev.</span></span><br><span class="line"><span class="comment">// If not found, allocate a buffer.</span></span><br><span class="line"><span class="comment">// In either case, return locked buffer.</span></span><br><span class="line"><span class="type">static</span> <span class="keyword">struct</span> buf*</span><br><span class="line"><span class="title function_">bget</span><span class="params">(uint dev, uint blockno)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">buf</span> *<span class="title">b</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Is the block already cached?</span></span><br><span class="line">  uint idx = blockno % HASHPRIME;</span><br><span class="line">  acquire(&amp;bcache.lock[idx]);</span><br><span class="line">  <span class="keyword">for</span>(b = bcache.head[idx].next; b != &amp;bcache.head[idx]; b = b-&gt;next)&#123;</span><br><span class="line">    <span class="keyword">if</span>(b-&gt;dev == dev &amp;&amp; b-&gt;blockno == blockno)&#123;</span><br><span class="line">      b-&gt;refcnt++;</span><br><span class="line">      release(&amp;bcache.lock[idx]);</span><br><span class="line">      acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">      <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Not cached in idx&#x27;th hash table.</span></span><br><span class="line">  <span class="comment">// Recycle the other least recently used (LRU) unused buffer in idx&#x27;th hash table.</span></span><br><span class="line">  <span class="comment">// in this case, we keep the hold of the lock of idx&#x27;th hash table</span></span><br><span class="line">  <span class="comment">// and try to replace a buffer</span></span><br><span class="line">  <span class="keyword">for</span>(b = bcache.head[idx].prev; b != &amp;bcache.head[idx]; b = b-&gt;prev)&#123;</span><br><span class="line">    <span class="keyword">if</span>(b-&gt;refcnt == <span class="number">0</span>) &#123;</span><br><span class="line">      b-&gt;dev = dev;</span><br><span class="line">      b-&gt;blockno = blockno;</span><br><span class="line">      b-&gt;valid = <span class="number">0</span>;</span><br><span class="line">      b-&gt;refcnt = <span class="number">1</span>;</span><br><span class="line">      release(&amp;bcache.lock[idx]);</span><br><span class="line">      acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">      <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  release(&amp;bcache.lock[idx]);</span><br><span class="line">  <span class="comment">// we fail to find a replaceable buffer in idx&#x27;th hash table</span></span><br><span class="line">  <span class="comment">// we try to replace a buffer in other hash table</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; HASHPRIME; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(i == idx) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">if</span>(i &lt; idx)</span><br><span class="line">    &#123;</span><br><span class="line">      acquire(&amp;bcache.lock[i]);</span><br><span class="line">      acquire(&amp;bcache.lock[idx]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      acquire(&amp;bcache.lock[idx]);</span><br><span class="line">      acquire(&amp;bcache.lock[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// we need to hold both the locks of the i&#x27;th table and the idx&#x27;th table</span></span><br><span class="line">    <span class="keyword">for</span>(b = bcache.head[i].prev; b != &amp;bcache.head[i]; b = b-&gt;prev)&#123;</span><br><span class="line">      <span class="keyword">if</span>(b-&gt;refcnt == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// we find a replaceable buffer, now we remove it from i&#x27;th table and insert it into idx&#x27;th table</span></span><br><span class="line">        b-&gt;dev = dev;</span><br><span class="line">        b-&gt;blockno = blockno;</span><br><span class="line">        b-&gt;valid = <span class="number">0</span>;</span><br><span class="line">        b-&gt;refcnt = <span class="number">1</span>;</span><br><span class="line">        b-&gt;next-&gt;prev = b-&gt;prev;</span><br><span class="line">        b-&gt;prev-&gt;next = b-&gt;next;</span><br><span class="line">        <span class="comment">// we now insert the buffer into the idx&#x27;th table</span></span><br><span class="line">        b-&gt;next = bcache.head[idx].next;</span><br><span class="line">        b-&gt;prev = &amp;bcache.head[idx];</span><br><span class="line">        bcache.head[idx].next-&gt;prev= b;</span><br><span class="line">        bcache.head[idx].next = b;</span><br><span class="line">        <span class="comment">// we then return with bcache.lock[idx] released</span></span><br><span class="line">        release(&amp;bcache.lock[i]);</span><br><span class="line">        release(&amp;bcache.lock[idx]);</span><br><span class="line">        acquiresleep(&amp;b-&gt;lock);</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    release(&amp;bcache.lock[i]);</span><br><span class="line">    release(&amp;bcache.lock[idx]);</span><br><span class="line">  &#125;</span><br><span class="line">  panic(<span class="string">&quot;bget: no buffers&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至于这里的魔数<code>HASHPRIME</code>选的几。。。首先哈希表自然是选质数比较好，然后考虑到源码中<code>NBUF</code>是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn></mrow><annotation encoding="application/x-tex">30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span></span></span></span>，我选择了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>29</mn></mrow><annotation encoding="application/x-tex">29</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">9</span></span></span></span></p>
+<p>总之记得及时释放，搞清楚链表操作，预防死锁，这样就做完了，这算是做得最快的一次<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>hard</mtext></mrow><annotation encoding="application/x-tex">\text{hard}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">hard</span></span></span></span></span>难度的任务了，因为代码集中在两个函数内部，并且思路很清晰，理解以后做起来比较快。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/22/MIT6-S081-Lab-7-Multithreading/" rel="prev" title="MIT6.S081 Lab-7: Multithreading">
+                  <i class="fa fa-chevron-left"></i> MIT6.S081 Lab-7: Multithreading
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/25/MIT6-S081-Lab-9-File-System/" rel="next" title="MIT6.S081 Lab-9: File System">
+                  MIT6.S081 Lab-9: File System <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLV</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.3/katex.min.css" integrity="sha256-NJNVfEC6jfEt62wQMafLNT2eI6BaWONXbpkSEVAs3+8=" crossorigin="anonymous">
+
+
+
+</body>
+</html>
